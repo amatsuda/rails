@@ -1,5 +1,4 @@
 require 'active_support/xml_mini'
-require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/object/to_param'
 require 'active_support/core_ext/object/to_query'
@@ -54,19 +53,19 @@ class Array
   #
   #   ['uno', 'dos', 'tres'].to_sentence(locale: :es)
   #   # => "uno o dos o al menos tres"
-  def to_sentence(options = {})
-    options.assert_valid_keys(:words_connector, :two_words_connector, :last_word_connector, :locale)
-
+  def to_sentence(words_connector: :words_connector, two_words_connector: :two_words_connector, last_word_connector: :last_word_connector, locale: nil)
     default_connectors = {
       :words_connector     => ', ',
       :two_words_connector => ' and ',
       :last_word_connector => ', and '
     }
     if defined?(I18n)
-      i18n_connectors = I18n.translate(:'support.array', locale: options[:locale], default: {})
+      i18n_connectors = I18n.translate(:'support.array', locale: locale, default: {})
       default_connectors.merge!(i18n_connectors)
     end
-    options = default_connectors.merge!(options)
+    words_connector = default_connectors[:words_connector] if words_connector == :words_connector
+    two_words_connector = default_connectors[:two_words_connector] if two_words_connector == :two_words_connector
+    last_word_connector = default_connectors[:last_word_connector] if last_word_connector == :last_word_connector
 
     case length
     when 0
@@ -74,9 +73,9 @@ class Array
     when 1
       self[0].to_s.dup
     when 2
-      "#{self[0]}#{options[:two_words_connector]}#{self[1]}"
+      "#{self[0]}#{two_words_connector}#{self[1]}"
     else
-      "#{self[0...-1].join(options[:words_connector])}#{options[:last_word_connector]}#{self[-1]}"
+      "#{self[0...-1].join(words_connector)}#{last_word_connector}#{self[-1]}"
     end
   end
 
