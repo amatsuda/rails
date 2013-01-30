@@ -188,12 +188,11 @@ class Array
   #     </message>
   #   </messages>
   #
-  def to_xml(options = {})
+  def to_xml(indent: 2, **options)
     require 'active_support/builder' unless defined?(Builder)
 
     options = options.dup
-    options[:indent]  ||= 2
-    options[:builder] ||= Builder::XmlMarkup.new(indent: options[:indent])
+    options[:builder] ||= Builder::XmlMarkup.new(indent: indent)
     options[:root]    ||= \
       if first.class != Hash && all? { |e| e.is_a?(first.class) }
         underscored = ActiveSupport::Inflector.underscore(first.class.name)
@@ -205,7 +204,7 @@ class Array
     builder = options[:builder]
     builder.instruct! unless options.delete(:skip_instruct)
 
-    root = ActiveSupport::XmlMini.rename_key(options[:root].to_s, options)
+    root = ActiveSupport::XmlMini.rename_key(options[:root].to_s, options.slice(:camelize, :dasherize))
     children = options.delete(:children) || root.singularize
     attributes = options[:skip_types] ? {} : { type: 'array' }
 

@@ -325,9 +325,6 @@ module ActiveSupport
         [@instance_with_helpers, TestClassWithClassNumberHelpers, ActiveSupport::NumberHelper].each do |number_helper|
           options = { 'raise' => true }
 
-          number_helper.number_to_phone(1, options)
-          assert_equal({ 'raise' => true }, options)
-
           number_helper.number_to_currency(1, options)
           assert_equal({ 'raise' => true }, options)
 

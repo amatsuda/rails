@@ -68,18 +68,16 @@ class Hash
   # The default XML builder is a fresh instance of <tt>Builder::XmlMarkup</tt>. You can
   # configure your own builder with the <tt>:builder</tt> option. The method also accepts
   # options like <tt>:dasherize</tt> and friends, they are forwarded to the builder.
-  def to_xml(options = {})
+  def to_xml(indent: 2, root: 'hash', **options)
     require 'active_support/builder' unless defined?(Builder)
 
     options = options.dup
-    options[:indent]  ||= 2
-    options[:root]    ||= 'hash'
-    options[:builder] ||= Builder::XmlMarkup.new(indent: options[:indent])
+    options[:builder] ||= Builder::XmlMarkup.new(indent: indent)
 
     builder = options[:builder]
     builder.instruct! unless options.delete(:skip_instruct)
 
-    root = ActiveSupport::XmlMini.rename_key(options[:root].to_s, options)
+    root = ActiveSupport::XmlMini.rename_key(root.to_s, options.slice(:camelize, :dasherize))
 
     builder.tag!(root) do
       each { |key, value| ActiveSupport::XmlMini.to_tag(key, value, options) }

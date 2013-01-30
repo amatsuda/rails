@@ -26,10 +26,10 @@ module ActiveSupport
   class MessageVerifier
     class InvalidSignature < StandardError; end
 
-    def initialize(secret, options = {})
+    def initialize(secret, digest: 'SHA1', serializer: Marshal)
       @secret = secret
-      @digest = options[:digest] || 'SHA1'
-      @serializer = options[:serializer] || Marshal
+      @digest = digest
+      @serializer = serializer
     end
 
     def verify(signed_message)

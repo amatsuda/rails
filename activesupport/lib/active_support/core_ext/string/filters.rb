@@ -38,18 +38,17 @@ class String
   #
   #   'And they found that many people were sleeping better.'.truncate(25, omission: '... (continued)')
   #   # => "And they f... (continued)"
-  def truncate(truncate_at, options = {})
+  def truncate(truncate_at, omission: '...', separator: nil)
     return dup unless length > truncate_at
 
-    options[:omission] ||= '...'
-    length_with_room_for_omission = truncate_at - options[:omission].length
+    length_with_room_for_omission = truncate_at - omission.length
     stop = \
-      if options[:separator]
-        rindex(options[:separator], length_with_room_for_omission) || length_with_room_for_omission
+      if separator
+        rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
       else
         length_with_room_for_omission
       end
 
-    self[0...stop] + options[:omission]
+    self[0...stop] + omission
   end
 end

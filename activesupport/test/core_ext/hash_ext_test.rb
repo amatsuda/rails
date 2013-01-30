@@ -566,18 +566,6 @@ class HashExtTest < ActiveSupport::TestCase
     assert_equal h.class, h.dup.class
   end
 
-  def test_assert_valid_keys
-    assert_nothing_raised do
-      { :failure => "stuff", :funny => "business" }.assert_valid_keys([ :failure, :funny ])
-      { :failure => "stuff", :funny => "business" }.assert_valid_keys(:failure, :funny)
-    end
-
-    assert_raise(ArgumentError, "Unknown key: failore") do
-      { :failore => "stuff", :funny => "business" }.assert_valid_keys([ :failure, :funny ])
-      { :failore => "stuff", :funny => "business" }.assert_valid_keys(:failure, :funny)
-    end
-  end
-
   def test_assorted_keys_not_stringified
     original = {Object.new => 2, 1 => 2, [] => true}
     indiff = original.with_indifferent_access

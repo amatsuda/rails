@@ -345,7 +345,7 @@ module ActiveSupport
       def write(name, value, options = nil)
         options = merged_options(options)
         instrument(:write, name, options) do |payload|
-          entry = Entry.new(value, options)
+          entry = Entry.new(value, options.slice(:compress, :compress_threshold, :expires_in))
           write_entry(namespaced_key(name, options), entry, options)
         end
       end
@@ -560,16 +560,14 @@ module ActiveSupport
 
       # Create a new cache entry for the specified value. Options supported are
       # +:compress+, +:compress_threshold+, and +:expires_in+.
-      def initialize(value, options = {})
-        if should_compress?(value, options)
+      def initialize(value, compress: false, compress_threshold: nil, expires_in: nil)
+        if should_compress?(value, compress: compress, compress_threshold: compress_threshold)
           @v = compress(value)
           @c = true
         else
           @v = value
         end
-        if expires_in = options[:expires_in]
-          @x = (Time.now + expires_in).to_i
-        end
+        @x = (Time.now + expires_in).to_i if expires_in
       end
 
       def value
@@ -627,9 +625,9 @@ module ActiveSupport
       end
 
       private
-        def should_compress?(value, options)
-          if value && options[:compress]
-            compress_threshold = options[:compress_threshold] || DEFAULT_COMPRESS_LIMIT
+        def should_compress?(value, compress: false, compress_threshold: nil)
+          if value && compress
+            compress_threshold ||= DEFAULT_COMPRESS_LIMIT
             serialized_value_size = (value.is_a?(String) ? value : Marshal.dump(value)).bytesize
             return true if serialized_value_size >= compress_threshold
           end

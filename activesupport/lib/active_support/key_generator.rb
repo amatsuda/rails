@@ -7,11 +7,11 @@ module ActiveSupport
   # This lets rails applications have a single secure secret, but avoid reusing that
   # key in multiple incompatible contexts.
   class KeyGenerator
-    def initialize(secret, options = {})
+    def initialize(secret, iterations: 2 ** 16)
       @secret = secret
       # The default iterations are higher than required for our key derivation uses
       # on the off chance someone uses this for password storage
-      @iterations = options[:iterations] || 2**16
+      @iterations = iterations
     end
 
     # Returns a derived key suitable for use.  The default key_size is chosen

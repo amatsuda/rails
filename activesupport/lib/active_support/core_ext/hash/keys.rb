@@ -57,20 +57,6 @@ class Hash
   end
   alias_method :to_options!, :symbolize_keys!
 
-  # Validate all keys in a hash match <tt>*valid_keys</tt>, raising ArgumentError
-  # on a mismatch. Note that keys are NOT treated indifferently, meaning if you
-  # use strings for keys but assert symbols as keys, this will fail.
-  #
-  #   { name: 'Rob', years: '28' }.assert_valid_keys(:name, :age) # => raises "ArgumentError: Unknown key: years"
-  #   { name: 'Rob', age: '28' }.assert_valid_keys('name', 'age') # => raises "ArgumentError: Unknown key: name"
-  #   { name: 'Rob', age: '28' }.assert_valid_keys(:name, :age)   # => passes, raises nothing
-  def assert_valid_keys(*valid_keys)
-    valid_keys.flatten!
-    each_key do |k|
-      raise ArgumentError.new("Unknown key: #{k}") unless valid_keys.include?(k)
-    end
-  end
-
   # Return a new hash with all keys converted by the block operation.
   # This includes the keys from the root hash and from all
   # nested hashes.

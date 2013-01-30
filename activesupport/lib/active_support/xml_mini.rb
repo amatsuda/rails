@@ -96,8 +96,8 @@ module ActiveSupport
       self.current_thread_backend = old_backend
     end
 
-    def to_tag(key, value, options)
-      type_name = options.delete(:type)
+    def to_tag(key, value, type: nil, **options)
+      type_name = type
       merged_options = options.merge(:root => key, :skip_instruct => true)
 
       if value.is_a?(::Method) || value.is_a?(::Proc)
@@ -114,7 +114,7 @@ module ActiveSupport
         type_name   = type_name.to_s   if type_name
         type_name   = "dateTime" if type_name == "datetime"
 
-        key = rename_key(key.to_s, options)
+        key = rename_key(key.to_s, options.slice(:camelize, :dasherize))
 
         attributes = options[:skip_types] || type_name.nil? ? { } : { :type => type_name }
         attributes[:nil] = true if value.nil?
@@ -129,9 +129,7 @@ module ActiveSupport
       end
     end
 
-    def rename_key(key, options = {})
-      camelize  = options[:camelize]
-      dasherize = !options.has_key?(:dasherize) || options[:dasherize]
+    def rename_key(key, camelize: nil, dasherize: true)
       if camelize
         key = true == camelize ? key.camelize : key.camelize(camelize)
       end
