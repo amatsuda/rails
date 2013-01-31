@@ -1,6 +1,5 @@
 require 'benchmark'
 require 'zlib'
-require 'active_support/core_ext/array/extract_options'
 require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/benchmark'
 require 'active_support/core_ext/class/attribute_accessors'
@@ -321,8 +320,7 @@ module ActiveSupport
       # Some cache implementation may optimize this method.
       #
       # Returns a hash mapping the names provided to the values found.
-      def read_multi(*names)
-        options = names.extract_options!
+      def read_multi(*names, **options)
         options = merged_options(options)
         results = {}
         names.each do |name|

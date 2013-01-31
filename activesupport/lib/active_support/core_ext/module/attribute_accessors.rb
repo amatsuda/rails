@@ -1,8 +1,5 @@
-require 'active_support/core_ext/array/extract_options'
-
 class Module
-  def mattr_reader(*syms)
-    options = syms.extract_options!
+  def mattr_reader(*syms, instance_reader: true, instance_accessor: true)
     syms.each do |sym|
       raise NameError.new('invalid attribute name') unless sym =~ /^[_A-Za-z]\w*$/
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -13,7 +10,7 @@ class Module
         end
       EOS
 
-      unless options[:instance_reader] == false || options[:instance_accessor] == false
+      unless (instance_reader == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}
             @@#{sym}
@@ -23,8 +20,7 @@ class Module
     end
   end
 
-  def mattr_writer(*syms)
-    options = syms.extract_options!
+  def mattr_writer(*syms, instance_writer: true, instance_accessor: true)
     syms.each do |sym|
       raise NameError.new('invalid attribute name') unless sym =~ /^[_A-Za-z]\w*$/
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -33,7 +29,7 @@ class Module
         end
       EOS
 
-      unless options[:instance_writer] == false || options[:instance_accessor] == false
+      unless (instance_writer == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}=(obj)
             @@#{sym} = obj
@@ -59,8 +55,8 @@ class Module
   # To opt out of the instance writer method, pass <tt>instance_writer: false</tt>.
   # To opt out of the instance reader method, pass <tt>instance_reader: false</tt>.
   # To opt out of both instance methods, pass <tt>instance_accessor: false</tt>.
-  def mattr_accessor(*syms)
-    mattr_reader(*syms)
-    mattr_writer(*syms)
+  def mattr_accessor(*syms, instance_reader: true, instance_writer: true, instance_accessor: true)
+    mattr_reader(*syms, instance_reader: instance_reader, instance_accessor: instance_accessor)
+    mattr_writer(*syms, instance_writer: instance_writer, instance_accessor: instance_accessor)
   end
 end

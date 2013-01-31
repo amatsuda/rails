@@ -1,5 +1,3 @@
-require 'active_support/core_ext/array/extract_options'
-
 # Extends the class object with class and instance accessors for class attributes,
 # just like the native attr* accessors for instance attributes.
 class Class
@@ -29,8 +27,7 @@ class Class
   #   end
   #
   #   Person.new.hair_colors # => NoMethodError
-  def cattr_reader(*syms)
-    options = syms.extract_options!
+  def cattr_reader(*syms, instance_reader: true, instance_accessor: true)
     syms.each do |sym|
       raise NameError.new('invalid attribute name') unless sym =~ /^[_A-Za-z]\w*$/
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -43,7 +40,7 @@ class Class
         end
       EOS
 
-      unless options[:instance_reader] == false || options[:instance_accessor] == false
+      unless (instance_reader == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}
             @@#{sym}
@@ -90,8 +87,7 @@ class Class
   #   end
   #
   #   Person.class_variable_get("@@hair_colors") # => [:brown, :black, :blonde, :red]
-  def cattr_writer(*syms)
-    options = syms.extract_options!
+  def cattr_writer(*syms, instance_writer: true, instance_accessor: true)
     syms.each do |sym|
       raise NameError.new('invalid attribute name') unless sym =~ /^[_A-Za-z]\w*$/
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -104,7 +100,7 @@ class Class
         end
       EOS
 
-      unless options[:instance_writer] == false || options[:instance_accessor] == false
+      unless (instance_writer == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}=(obj)
             @@#{sym} = obj
@@ -163,8 +159,8 @@ class Class
   #   end
   #
   #   Person.class_variable_get("@@hair_colors") #=> [:brown, :black, :blonde, :red]
-  def cattr_accessor(*syms, &blk)
-    cattr_reader(*syms)
-    cattr_writer(*syms, &blk)
+  def cattr_accessor(*syms, instance_reader: true, instance_writer: true, instance_accessor: true, &blk)
+    cattr_reader(*syms, instance_reader: instance_reader, instance_accessor: instance_accessor)
+    cattr_writer(*syms, instance_writer: instance_writer, instance_accessor: instance_accessor, &blk)
   end
 end

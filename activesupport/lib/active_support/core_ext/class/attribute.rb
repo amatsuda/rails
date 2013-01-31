@@ -1,6 +1,5 @@
 require 'active_support/core_ext/kernel/singleton_class'
 require 'active_support/core_ext/module/remove_method'
-require 'active_support/core_ext/array/extract_options'
 
 class Class
   # Declare a class-level attribute whose value is inheritable by subclasses.
@@ -67,11 +66,9 @@ class Class
   #   object.setting = false  # => NoMethodError
   #
   # To opt out of both instance methods, pass <tt>instance_accessor: false</tt>.
-  def class_attribute(*attrs)
-    options = attrs.extract_options!
-    # double assignment is used to avoid "assigned but unused variable" warning
-    instance_reader = instance_reader = options.fetch(:instance_accessor, true) && options.fetch(:instance_reader, true)
-    instance_writer = options.fetch(:instance_accessor, true) && options.fetch(:instance_writer, true)
+  def class_attribute(*attrs, instance_reader: true, instance_writer: true, instance_accessor: true)
+    instance_reader = instance_accessor && instance_reader
+    instance_writer = instance_accessor && instance_writer
 
     # We use class_eval here rather than define_method because class_attribute
     # may be used in a performance sensitive context therefore the overhead that

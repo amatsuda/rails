@@ -2,7 +2,6 @@ require 'active_support/concern'
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/proc'
 require 'active_support/core_ext/string/inflections'
-require 'active_support/core_ext/array/extract_options'
 
 module ActiveSupport
   # Rescuable module adds support for easier exception handling.
@@ -49,12 +48,10 @@ module ActiveSupport
       #   end
       #
       # Exceptions raised inside exception handlers are not propagated up.
-      def rescue_from(*klasses, &block)
-        options = klasses.extract_options!
-
-        unless options.has_key?(:with)
+      def rescue_from(*klasses, with: nil, &block)
+        unless with
           if block_given?
-            options[:with] = block
+            with = block
           else
             raise ArgumentError, "Need a handler. Supply an options hash that has a :with key as the last argument."
           end
@@ -70,7 +67,7 @@ module ActiveSupport
           end
 
           # put the new handler at the end because the list is read in reverse
-          self.rescue_handlers += [[key, options[:with]]]
+          self.rescue_handlers += [[key, with]]
         end
       end
     end

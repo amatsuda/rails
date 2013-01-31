@@ -1,6 +1,5 @@
 require 'active_support/concern'
 require 'active_support/ordered_options'
-require 'active_support/core_ext/array/extract_options'
 
 module ActiveSupport
   # Configurable provides a <tt>config</tt> method to store and retrieve
@@ -103,9 +102,7 @@ module ActiveSupport
       #   end
       #
       #   User.hair_colors # => [:brown, :black, :blonde, :red]
-      def config_accessor(*names)
-        options = names.extract_options!
-
+      def config_accessor(*names, instance_reader: true, instance_writer: true, instance_accessor: true)
         names.each do |name|
           raise NameError.new('invalid config attribute name') unless name =~ /^[_A-Za-z]\w*$/
 
@@ -115,9 +112,9 @@ module ActiveSupport
           singleton_class.class_eval reader, __FILE__, reader_line
           singleton_class.class_eval writer, __FILE__, writer_line
 
-          unless options[:instance_accessor] == false
-            class_eval reader, __FILE__, reader_line unless options[:instance_reader] == false
-            class_eval writer, __FILE__, writer_line unless options[:instance_writer] == false
+          unless instance_accessor == false
+            class_eval reader, __FILE__, reader_line unless instance_reader == false
+            class_eval writer, __FILE__, writer_line unless instance_writer == false
           end
           send("#{name}=", yield) if block_given?
         end

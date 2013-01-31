@@ -7,7 +7,6 @@ end
 
 require 'digest/md5'
 require 'active_support/core_ext/marshal'
-require 'active_support/core_ext/array/extract_options'
 
 module ActiveSupport
   module Cache
@@ -26,9 +25,8 @@ module ActiveSupport
     class MemCacheStore < Store
       ESCAPE_KEY_CHARS = /[\x00-\x20%\x7F-\xFF]/n
 
-      def self.build_mem_cache(*addresses)
+      def self.build_mem_cache(*addresses, **options)
         addresses = addresses.flatten
-        options = addresses.extract_options!
         addresses = ["localhost:11211"] if addresses.empty?
         Dalli::Client.new(addresses, options)
       end
@@ -46,9 +44,8 @@ module ActiveSupport
       #
       #   require 'memcached' # gem install memcached; uses C bindings to libmemcached
       #   ActiveSupport::Cache::MemCacheStore.new(Memcached::Rails.new("localhost:11211"))
-      def initialize(*addresses)
+      def initialize(*addresses, **options)
         addresses = addresses.flatten
-        options = addresses.extract_options!
         super(options)
 
         if addresses.first.respond_to?(:get)
@@ -65,8 +62,7 @@ module ActiveSupport
 
       # Reads multiple values from the cache using a single call to the
       # servers for all keys. Options can be passed in the last argument.
-      def read_multi(*names)
-        options = names.extract_options!
+      def read_multi(*names, **options)
         options = merged_options(options)
         keys_to_names = Hash[names.map{|name| [escape_key(namespaced_key(name, options)), name]}]
         raw_values = @data.get_multi(keys_to_names.keys, :raw => true)
