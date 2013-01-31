@@ -1,5 +1,3 @@
-require 'active_support/core_ext/array/extract_options'
-
 module ActiveModel
   # == Active \Model \Callbacks
   #
@@ -97,21 +95,11 @@ module ActiveModel
     #       # obj is the MyModel instance that the callback is being called on
     #     end
     #   end
-    def define_model_callbacks(*callbacks)
-      options = callbacks.extract_options!
-      options = {
-        :terminator => "result == false",
-        :skip_after_callbacks_if_terminated => true,
-        :scope => [:kind, :name],
-        :only => [:before, :around, :after]
-      }.merge!(options)
-
-      types = Array(options.delete(:only))
-
+    def define_model_callbacks(*callbacks, terminator: 'result == false', skip_after_callbacks_if_terminated: true, scope: [:kind, :name], only: [:before, :around, :after])
       callbacks.each do |callback|
-        define_callbacks(callback, options)
+        define_callbacks(callback, terminator: terminator, skip_after_callbacks_if_terminated: skip_after_callbacks_if_terminated, scope: scope, only: only)
 
-        types.each do |type|
+        Array(only).each do |type|
           send("_define_#{type}_model_callback", self, callback)
         end
       end
@@ -137,8 +125,7 @@ module ActiveModel
 
     def _define_after_model_callback(klass, callback) #:nodoc:
       klass.class_eval <<-CALLBACK, __FILE__, __LINE__ + 1
-        def self.after_#{callback}(*args, &block)
-          options = args.extract_options!
+        def self.after_#{callback}(*args, **options, &block)
           options[:prepend] = true
           options[:if] = Array(options[:if]) << "value != false"
           set_callback(:#{callback}, :after, *(args << options), &block)

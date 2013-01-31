@@ -87,8 +87,7 @@ module ActiveModel
         #   person.name = 'bob'
         #   person.valid? # => true
         #   person.status # => true
-        def after_validation(*args, &block)
-          options = args.extract_options!
+        def after_validation(*args, **options, &block)
           options[:prepend] = true
           options[:if] = Array(options[:if])
           if options[:on]

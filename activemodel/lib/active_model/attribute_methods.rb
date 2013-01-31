@@ -382,8 +382,8 @@ module ActiveModel
 
           AttributeMethodMatch = Struct.new(:target, :attr_name, :method_name)
 
-          def initialize(options = {})
-            if options[:prefix] == '' || options[:suffix] == ''
+          def initialize(prefix: nil, suffix: nil)
+            if (prefix == '') || (suffix == '')
               message = "Specifying an empty prefix/suffix for an attribute method is no longer " \
                         "necessary. If the un-prefixed/suffixed version of the method has not been " \
                         "defined when `define_attribute_methods` is called, it will be defined " \
@@ -391,7 +391,7 @@ module ActiveModel
               ActiveSupport::Deprecation.warn message
             end
 
-            @prefix, @suffix = options.fetch(:prefix, ''), options.fetch(:suffix, '')
+            @prefix, @suffix = (prefix || ''), (suffix || '')
             @regex = /^(?:#{Regexp.escape(@prefix)})(.*)(?:#{Regexp.escape(@suffix)})$/
             @method_missing_target = "#{@prefix}attribute#{@suffix}"
             @method_name = "#{prefix}%s#{suffix}"

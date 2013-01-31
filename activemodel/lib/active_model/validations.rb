@@ -1,9 +1,7 @@
-require 'active_support/core_ext/array/extract_options'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/hash/except'
 
 module ActiveModel
-
   # == Active \Model Validations
   #
   # Provides a full validation framework to your objects.
@@ -111,8 +109,7 @@ module ActiveModel
       #     def must_be_friends
       #       errors.add(:base, 'Must be friends to leave a comment') unless commenter.friend_of?(commentee)
       #     end
-      #   end
-      #
+      #   end #
       # Or with a block where self points to the current record to be validated:
       #
       #   class Comment
@@ -137,8 +134,7 @@ module ActiveModel
       #   or <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>). The
       #   method, proc or string should return or evaluate to a +true+ or +false+
       #   value.
-      def validate(*args, &block)
-        options = args.extract_options!
+      def validate(*args, **options, &block)
         if options.key?(:on)
           options = options.dup
           options[:if] = Array(options[:if])
@@ -174,7 +170,7 @@ module ActiveModel
       #   class Person
       #     include ActiveModel::Validations
       #
-      #     attr_accessor :name , :age
+      #     attr_accessor :name, :age
       #
       #     validates_presence_of :name
       #     validates_inclusion_of :age, in: 0..99

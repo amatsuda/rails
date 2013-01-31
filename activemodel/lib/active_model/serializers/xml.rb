@@ -85,7 +85,7 @@ module ActiveModel
           @builder.instruct! unless options[:skip_instruct]
 
           root = (options[:root] || @serializable.class.model_name.element).to_s
-          root = ActiveSupport::XmlMini.rename_key(root, options)
+          root = ActiveSupport::XmlMini.rename_key(root, options.slice(:camelize, :dasherize))
 
           args = [root]
           args << {:xmlns => options[:namespace]} if options[:namespace]
@@ -107,7 +107,7 @@ module ActiveModel
 
         def add_attributes_and_methods
           serializable_collection.each do |attribute|
-            key = ActiveSupport::XmlMini.rename_key(attribute.name, options)
+            key = ActiveSupport::XmlMini.rename_key(attribute.name, options.slice(:camelize, :dasherize))
             ActiveSupport::XmlMini.to_tag(key, attribute.value,
               options.merge(attribute.decorations))
           end
@@ -131,7 +131,7 @@ module ActiveModel
           if records.respond_to?(:to_ary)
             records = records.to_ary
 
-            tag  = ActiveSupport::XmlMini.rename_key(association.to_s, options)
+            tag  = ActiveSupport::XmlMini.rename_key(association.to_s, options.slice(:camelize, :dasherize))
             type = options[:skip_types] ? { } : {:type => "array"}
             association_name = association.to_s.singularize
             merged_options[:root] = association_name

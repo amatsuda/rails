@@ -97,8 +97,7 @@ module ActiveModel
       # and +:message+ can be given to one specific validator, as a hash:
       #
       #   validates :password, presence: { if: :password_required?, message: 'is forgotten.' }, confirmation: true
-      def validates(*attributes)
-        defaults = attributes.extract_options!.dup
+      def validates(*attributes, **defaults)
         validations = defaults.slice!(*_validates_default_keys)
 
         raise ArgumentError, "You need to supply at least one attribute" if attributes.empty?
@@ -138,8 +137,7 @@ module ActiveModel
       #   person.name = ''
       #   person.valid?
       #   # => ActiveModel::StrictValidationFailed: Name can't be blank
-      def validates!(*attributes)
-        options = attributes.extract_options!
+      def validates!(*attributes, **options)
         options[:strict] = true
         validates(*(attributes << options))
       end

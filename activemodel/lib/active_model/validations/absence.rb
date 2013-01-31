@@ -23,8 +23,8 @@ module ActiveModel
       # There is also a list of default options supported by every validator:
       # +:if+, +:unless+, +:on+ and +:strict+.
       # See <tt>ActiveModel::Validation#validates</tt> for more information
-      def validates_absence_of(*attr_names)
-        validates_with AbsenceValidator, _merge_attributes(attr_names)
+      def validates_absence_of(*attr_names, **options)
+        validates_with AbsenceValidator, _merge_attributes(attr_names, options)
       end
     end
   end

@@ -1,5 +1,4 @@
 module ActiveModel
-
   module Validations
     class NumericalityValidator < EachValidator # :nodoc:
       CHECKS = { :greater_than => :>, :greater_than_or_equal_to => :>=,
@@ -128,8 +127,8 @@ module ActiveModel
       #     validates_numericality_of :width, less_than: ->(person) { person.height }
       #     validates_numericality_of :width, greater_than: :minimum_weight
       #   end
-      def validates_numericality_of(*attr_names)
-        validates_with NumericalityValidator, _merge_attributes(attr_names)
+      def validates_numericality_of(*attr_names, **options)
+        validates_with NumericalityValidator, _merge_attributes(attr_names, options)
       end
     end
   end

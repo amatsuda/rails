@@ -1,5 +1,4 @@
 module ActiveModel
-
   # == Active \Model Length \Validator
   module Validations
     class LengthValidator < EachValidator # :nodoc:
@@ -116,8 +115,8 @@ module ActiveModel
       # There is also a list of default options supported by every validator:
       # +:if+, +:unless+, +:on+ and +:strict+.
       # See <tt>ActiveModel::Validation#validates</tt> for more information
-      def validates_length_of(*attr_names)
-        validates_with LengthValidator, _merge_attributes(attr_names)
+      def validates_length_of(*attr_names, **options)
+        validates_with LengthValidator, _merge_attributes(attr_names, options)
       end
 
       alias_method :validates_size_of, :validates_length_of

@@ -1,11 +1,9 @@
-require 'active_support/core_ext/array/extract_options'
-
 module ActiveModel
   module Validations
     module HelperMethods
       private
-        def _merge_attributes(attr_names)
-          options = attr_names.extract_options!.symbolize_keys
+        def _merge_attributes(attr_names, **options)
+          options = options.symbolize_keys
           attr_names.flatten!
           options[:attributes] = attr_names
           options
@@ -83,8 +81,7 @@ module ActiveModel
       #       options[:my_custom_key] # => "my custom value"
       #     end
       #   end
-      def validates_with(*args, &block)
-        options = args.extract_options!
+      def validates_with(*args, **options, &block)
         args.each do |klass|
           validator = klass.new(options, &block)
           validator.setup(self) if validator.respond_to?(:setup)
@@ -138,8 +135,7 @@ module ActiveModel
     # If you pass any additional configuration options, they will be passed
     # to the class and available as +options+, please refer to the
     # class version of this method for more information.
-    def validates_with(*args, &block)
-      options = args.extract_options!
+    def validates_with(*args, **options, &block)
       args.each do |klass|
         validator = klass.new(options, &block)
         validator.validate(self)
