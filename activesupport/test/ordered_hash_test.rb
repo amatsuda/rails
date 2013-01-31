@@ -2,7 +2,6 @@ require 'abstract_unit'
 require 'active_support/json'
 require 'active_support/core_ext/object/to_json'
 require 'active_support/core_ext/hash/indifferent_access'
-require 'active_support/core_ext/array/extract_options'
 
 class OrderedHashTest < ActiveSupport::TestCase
   def setup
@@ -314,10 +313,5 @@ class OrderedHashTest < ActiveSupport::TestCase
     expected = ActiveSupport::OrderedHash[@values.zip(@keys)]
     assert_equal expected, @ordered_hash.invert
     assert_equal @values.zip(@keys), @ordered_hash.invert.to_a
-  end
-
-  def test_extractable
-    @ordered_hash[:rails] = "snowman"
-    assert_equal @ordered_hash, [1, 2, @ordered_hash].extract_options!
   end
 end

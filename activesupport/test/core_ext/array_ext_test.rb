@@ -322,37 +322,6 @@ class ArrayExtractOptionsTests < ActiveSupport::TestCase
       true
     end
   end
-
-  def test_extract_options
-    assert_equal({}, [].extract_options!)
-    assert_equal({}, [1].extract_options!)
-    assert_equal({:a=>:b}, [{:a=>:b}].extract_options!)
-    assert_equal({:a=>:b}, [1, {:a=>:b}].extract_options!)
-  end
-
-  def test_extract_options_doesnt_extract_hash_subclasses
-    hash = HashSubclass.new
-    hash[:foo] = 1
-    array = [hash]
-    options = array.extract_options!
-    assert_equal({}, options)
-    assert_equal [hash], array
-  end
-
-  def test_extract_options_extracts_extractable_subclass
-    hash = ExtractableHashSubclass.new
-    hash[:foo] = 1
-    array = [hash]
-    options = array.extract_options!
-    assert_equal({:foo => 1}, options)
-    assert_equal [], array
-  end
-
-  def test_extract_options_extracts_hwia
-    hash = [{:foo => 1}.with_indifferent_access]
-    options = hash.extract_options!
-    assert_equal 1, options[:foo]
-  end
 end
 
 class ArrayUniqByTests < ActiveSupport::TestCase
