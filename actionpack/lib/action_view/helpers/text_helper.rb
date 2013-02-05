@@ -1,5 +1,4 @@
 require 'active_support/core_ext/string/filters'
-require 'active_support/core_ext/array/extract_options'
 
 module ActionView
   # = Action View Text Helpers
@@ -84,12 +83,10 @@ module ActionView
       #
       #   truncate("Once upon a time in a world far far away") { link_to "Continue", "#" }
       #   # => "Once upon a time in a wo...<a href="#">Continue</a>"
-      def truncate(text, options = {}, &block)
+      def truncate(text, length: 30, escape: true, **options, &block)
         if text
-          length  = options.fetch(:length, 30)
-
           content = text.truncate(length, options)
-          content = options[:escape] == false ? content.html_safe : ERB::Util.html_escape(content)
+          content = escape == false ? content.html_safe : ERB::Util.html_escape(content)
           content << capture(&block) if block_given? && text.length > length
           content
         end
@@ -111,13 +108,12 @@ module ActionView
       #
       #   highlight('You searched for: rails', 'rails', highlighter: '<a href="search?q=\1">\1</a>')
       #   # => You searched for: <a href="search?q=rails">rails</a>
-      def highlight(text, phrases, options = {})
-        text = sanitize(text) if options.fetch(:sanitize, true)
+      def highlight(text, phrases, sanitize: true, highlighter: '<mark>\1</mark>')
+        text = sanitize(text) if sanitize
 
         if text.blank? || phrases.blank?
           text
         else
-          highlighter = options.fetch(:highlighter, '<mark>\1</mark>')
           match = Array(phrases).map { |p| Regexp.escape(p) }.join('|')
           text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
         end.html_safe
@@ -147,12 +143,11 @@ module ActionView
       #
       #   excerpt('This is a very beautiful morning', 'very', separator:  ' ', radius: 1)
       #   # => ...a very beautiful...
-      def excerpt(text, phrase, options = {})
+      def excerpt(text, phrase, separator: '', **options)
         return unless text && phrase
 
-        separator = options.fetch(:separator, "")
-        phrase    = Regexp.escape(phrase)
-        regex     = /#{phrase}/i
+        phrase = Regexp.escape(phrase)
+        regex  = /#{phrase}/i
 
         return unless matches = text.match(regex)
         phrase = matches[0]
@@ -212,9 +207,7 @@ module ActionView
       #
       #   word_wrap('Once upon a time', line_width: 1)
       #   # => Once\nupon\na\ntime
-      def word_wrap(text, options = {})
-        line_width = options.fetch(:line_width, 80)
-
+      def word_wrap(text, line_width: 80)
         text.split("\n").collect do |line|
           line.length > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1\n").strip : line
         end * "\n"
@@ -252,17 +245,17 @@ module ActionView
       #
       #   simple_format("<span>I'm allowed!</span> It's true.", {}, sanitize: false)
       #   # => "<p><span>I'm allowed!</span> It's true.</p>"
-      def simple_format(text, html_options = {}, options = {})
-        wrapper_tag = options.fetch(:wrapper_tag, :p)
-
-        text = sanitize(text) if options.fetch(:sanitize, true)
+      def simple_format(text, html_options = {}, wrapper_tag: :p, sanitize: nil, **options)
+        text = sanitize(text) if sanitize != false
         paragraphs = split_paragraphs(text)
+
+        html_options = html_options.merge(options) if html_options.is_a?(Hash)
 
         if paragraphs.empty?
           content_tag(wrapper_tag, nil, html_options)
         else
           paragraphs.map { |paragraph|
-            content_tag(wrapper_tag, paragraph, html_options, options[:sanitize])
+            content_tag(wrapper_tag, paragraph, html_options, sanitize)
           }.join("\n\n").html_safe
         end
       end
@@ -304,10 +297,7 @@ module ActionView
       #       </td>
       #    </tr>
       #  <% end %>
-      def cycle(first_value, *values)
-        options = values.extract_options!
-        name = options.fetch(:name, 'default')
-
+      def cycle(first_value, *values, name: 'default')
         values.unshift(first_value)
 
         cycle = get_cycle(name)
@@ -415,11 +405,8 @@ module ActionView
           end
         end
 
-        def cut_excerpt_part(part_position, part, separator, options)
+        def cut_excerpt_part(part_position, part, separator, radius: 100, omission: '...')
           return "", "" unless part
-
-          radius   = options.fetch(:radius, 100)
-          omission = options.fetch(:omission, "...")
 
           part = part.split(separator)
           part.delete("")

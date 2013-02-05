@@ -2,7 +2,6 @@ require 'cgi'
 require 'erb'
 require 'action_view/helpers/form_helper'
 require 'active_support/core_ext/string/output_safety'
-require 'active_support/core_ext/array/extract_options'
 require 'active_support/core_ext/array/wrap'
 
 module ActionView
@@ -726,14 +725,15 @@ module ActionView
           Array(selected).include? value
         end
 
-        def extract_selected_and_disabled(selected)
+        def extract_selected_and_disabled(selected = nil, disabled: nil, **options)
+          selected = options if selected.nil?
           if selected.is_a?(Proc)
             [selected, nil]
           else
             selected = Array.wrap(selected)
-            options = selected.extract_options!.symbolize_keys
+            options = options.symbolize_keys
             selected_items = options.fetch(:selected, selected)
-            [selected_items, options[:disabled]]
+            [selected_items, disabled]
           end
         end
 

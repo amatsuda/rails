@@ -1,4 +1,3 @@
-require 'active_support/core_ext/array/extract_options'
 require 'active_support/core_ext/hash/keys'
 require 'action_view/helpers/asset_url_helper'
 require 'action_view/helpers/tag_helper'
@@ -51,8 +50,8 @@ module ActionView
       #   javascript_include_tag "http://www.example.com/xmlhr.js"
       #   # => <script src="http://www.example.com/xmlhr.js"></script>
       #
-      def javascript_include_tag(*sources)
-        options = sources.extract_options!.stringify_keys
+      def javascript_include_tag(*sources, **options)
+        options = options.stringify_keys
         path_options = options.extract!('protocol').symbolize_keys
 
         sources.uniq.map { |source|
@@ -89,8 +88,8 @@ module ActionView
       #   # => <link href="/assets/random.styles" media="screen" rel="stylesheet" />
       #   #    <link href="/css/stylish.css" media="screen" rel="stylesheet" />
       #
-      def stylesheet_link_tag(*sources)
-        options = sources.extract_options!.stringify_keys
+      def stylesheet_link_tag(*sources, **options)
+        options = options.stringify_keys
         path_options = options.extract!('protocol').symbolize_keys
 
         sources.uniq.map { |source|
@@ -125,8 +124,8 @@ module ActionView
       #   # => <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.currenthost.com/news/feed" />
       #   auto_discovery_link_tag(:rss, "http://www.example.com/feed.rss", {title: "Example RSS"})
       #   # => <link rel="alternate" type="application/rss+xml" title="Example RSS" href="http://www.example.com/feed" />
-      def auto_discovery_link_tag(type = :rss, url_options = {}, tag_options = {})
-        if !(type == :rss || type == :atom) && tag_options[:type].blank?
+      def auto_discovery_link_tag(link_type = :rss, url_options = {}, rel: 'alternate', type: nil, title: nil, **tag_options)
+        if !(link_type == :rss || link_type == :atom) && type.blank?
           message = "You have passed type other than :rss or :atom to auto_discovery_link_tag and haven't supplied " +
                     "the :type option key. This behavior is deprecated and will be remove in Rails 4.1. You should pass " +
                     ":type option explicitly if you want to use other types, for example: " +
@@ -136,9 +135,9 @@ module ActionView
 
         tag(
           "link",
-          "rel"   => tag_options[:rel] || "alternate",
-          "type"  => tag_options[:type] || Mime::Type.lookup_by_extension(type.to_s).to_s,
-          "title" => tag_options[:title] || type.to_s.upcase,
+          "rel" => rel,
+          "type"  => type || Mime::Type.lookup_by_extension(link_type.to_s).to_s,
+          "title" => title || link_type.to_s.upcase,
           "href"  => url_options.is_a?(Hash) ? url_for(url_options.merge(:only_path => false)) : url_options
         )
       end
@@ -161,12 +160,8 @@ module ActionView
       #   favicon_link_tag '/mb-icon.png', rel: 'apple-touch-icon', type: 'image/png'
       #   # => <link href="/assets/mb-icon.png" rel="apple-touch-icon" type="image/png" />
       #
-      def favicon_link_tag(source='favicon.ico', options={})
-        tag('link', {
-          :rel  => 'shortcut icon',
-          :type => 'image/vnd.microsoft.icon',
-          :href => path_to_image(source)
-        }.merge(options.symbolize_keys))
+      def favicon_link_tag(source='favicon.ico', rel: 'shortcut icon', type: 'image/vnd.microsoft.icon', **options)
+        tag('link', options.symbolize_keys.merge(rel: rel, type: type, href: path_to_image(source)))
       end
 
       # Returns an HTML image tag for the +source+. The +source+ can be a full
@@ -196,7 +191,7 @@ module ActionView
       #   # => <img alt="Icon" height="32" src="/icons/icon.gif" width="32" />
       #   image_tag("/icons/icon.gif", class: "menu_icon")
       #   # => <img alt="Icon" class="menu_icon" src="/icons/icon.gif" />
-      def image_tag(source, options={})
+      def image_tag(source, **options)
         options = options.symbolize_keys
 
         src = options[:src] = path_to_image(source)
@@ -254,14 +249,15 @@ module ActionView
       #   # => <video><source src="/videos/trailer.ogg" /><source src="/videos/trailer.flv" /></video>
       #   video_tag(["trailer.ogg", "trailer.flv"], size: "160x120")
       #   # => <video height="120" width="160"><source src="/videos/trailer.ogg" /><source src="/videos/trailer.flv" /></video>
-      def video_tag(*sources)
-        multiple_sources_tag('video', sources) do |options|
-          options[:poster] = path_to_image(options[:poster]) if options[:poster]
+      def video_tag(*sources, poster: nil, size: nil, **options)
+        options = options.symbolize_keys
+        poster = options.delete(:poster) if options[:poster]
+        size = options.delete(:size) if options[:size]
 
-          if size = options.delete(:size)
-            options[:width], options[:height] = size.split("x") if size =~ %r{^\d+x\d+$}
-          end
-        end
+        poster = path_to_image(poster) if poster
+        width, height = size.split("x") if size =~ %r{^\d+x\d+$}
+
+        multiple_sources_tag('video', sources, poster: poster, width: width, height: height, **options)
       end
 
       # Returns an HTML audio tag for the +source+.
@@ -276,16 +272,14 @@ module ActionView
       #   # => <audio autoplay="autoplay" controls="controls" src="/audios/sound.wav" />
       #   audio_tag("sound.wav", "sound.mid")
       #   # => <audio><source src="/audios/sound.wav" /><source src="/audios/sound.mid" /></audio>
-      def audio_tag(*sources)
-        multiple_sources_tag('audio', sources)
+      def audio_tag(*sources, **options)
+        options = options.symbolize_keys
+        multiple_sources_tag('audio', sources, options)
       end
 
       private
-        def multiple_sources_tag(type, sources)
-          options = sources.extract_options!.symbolize_keys
+        def multiple_sources_tag(type, sources, poster: nil, size: nil, **options)
           sources.flatten!
-
-          yield options if block_given?
 
           if sources.size > 1
             content_tag(type, options) do
@@ -293,7 +287,7 @@ module ActionView
             end
           else
             options[:src] = send("path_to_#{type}", sources.first)
-            content_tag(type, nil, options)
+            content_tag(type, nil, options.merge(poster: poster, size: size))
           end
         end
     end
