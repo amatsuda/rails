@@ -81,7 +81,11 @@ module ActiveRecord
       # Serialized attributes should always be written in case they've been
       # changed in place.
       def keys_for_partial_write
-        changed | (attributes.keys & self.class.serialized_attributes.keys)
+        changed | (attributes.keys & self.class.serialized_attributes.keys) | keys_for_not_null_columns_having_null_value
+      end
+
+      def keys_for_not_null_columns_having_null_value
+        self.class.columns.reject(&:null).map(&:name).select {|c| self[c].nil?}
       end
 
       def _field_changed?(attr, old, value)
