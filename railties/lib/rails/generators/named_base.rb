@@ -28,7 +28,7 @@ module Rails
         end
       end
 
-      protected
+      private
         attr_reader :file_name
 
         # FIXME: We are avoiding to use alias because a bug on thor that make

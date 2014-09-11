@@ -411,7 +411,7 @@ module ActiveRecord
       reflections.none? { |r| r.collection? }
     end
 
-    protected
+    private
 
     def find_with_ids(*ids)
       raise UnknownPrimaryKey.new(@klass) if primary_key.nil?

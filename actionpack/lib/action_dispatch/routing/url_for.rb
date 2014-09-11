@@ -174,6 +174,8 @@ module ActionDispatch
         _routes.optimize_routes_generation? && default_url_options.empty?
       end
 
+      private
+
       def _with_routes(routes)
         old_routes, @_routes = @_routes, routes
         yield

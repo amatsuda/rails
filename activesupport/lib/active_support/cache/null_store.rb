@@ -28,7 +28,7 @@ module ActiveSupport
       def delete_matched(matcher, options = nil)
       end
 
-      protected
+      private
         def read_entry(key, options) # :nodoc:
         end
 

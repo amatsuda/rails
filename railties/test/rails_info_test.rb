@@ -65,7 +65,7 @@ class InfoTest < ActiveSupport::TestCase
     end
   end
 
-  protected
+  private
     def properties
       Rails::Info.properties
     end

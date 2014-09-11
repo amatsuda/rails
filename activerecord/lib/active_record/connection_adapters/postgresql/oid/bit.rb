@@ -30,20 +30,16 @@ module ActiveRecord
             end
 
             def to_s
-              value
+              @value
             end
 
             def binary?
-              /\A[01]*\Z/ === value
+              /\A[01]*\Z/ === @value
             end
 
             def hex?
-              /\A[0-9A-F]*\Z/i === value
+              /\A[0-9A-F]*\Z/i === @value
             end
-
-            protected
-
-            attr_reader :value
           end
         end
       end

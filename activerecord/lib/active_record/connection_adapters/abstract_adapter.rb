@@ -386,7 +386,7 @@ module ActiveRecord
         type_map.lookup(sql_type)
       end
 
-      protected
+      private
 
       def initialize_type_map(m) # :nodoc:
         register_class_with_limit m, %r(boolean)i,   Type::Boolean

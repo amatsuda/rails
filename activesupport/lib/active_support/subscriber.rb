@@ -57,9 +57,10 @@ module ActiveSupport
         @@subscribers ||= []
       end
 
-      protected
-
       attr_reader :subscriber, :notifier, :namespace
+      private :subscriber, :notifier, :namespace
+
+      private
 
       def add_event_subscriber(event)
         return if %w{ start finish }.include?(event.to_s)

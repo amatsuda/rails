@@ -20,7 +20,7 @@ module AbstractController
       generate_method_for_mime(mime) unless self.instance_methods.include?(mime.to_sym)
     end
 
-  protected
+  private
 
     def method_missing(symbol, &block)
       const_name = symbol.upcase

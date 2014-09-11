@@ -118,7 +118,7 @@ module ActionDispatch
       middlewares.freeze.reverse.inject(app) { |a, e| e.build(a) }
     end
 
-  protected
+  private
 
     def assert_index(index, where)
       i = index.is_a?(Integer) ? index : middlewares.index(index)

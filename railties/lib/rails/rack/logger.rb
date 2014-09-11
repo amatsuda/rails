@@ -23,7 +23,7 @@ module Rails
         end
       end
 
-    protected
+    private
 
       def call_app(request, env)
         # Put some space between requests in development logs.
@@ -66,8 +66,6 @@ module Rails
           end
         end
       end
-
-      private
 
       def finish(request)
         instrumenter = ActiveSupport::Notifications.instrumenter

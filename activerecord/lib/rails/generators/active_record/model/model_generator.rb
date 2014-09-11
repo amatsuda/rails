@@ -40,7 +40,7 @@ module ActiveRecord
 
       hook_for :test_framework
 
-      protected
+      private
 
         # Used by the migration template to determine the parent name of the model
         def parent_class_name

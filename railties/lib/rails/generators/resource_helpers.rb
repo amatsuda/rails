@@ -24,7 +24,7 @@ module Rails
         assign_controller_names!(controller_name.pluralize)
       end
 
-      protected
+      private
 
         attr_reader :controller_name, :controller_file_name
 

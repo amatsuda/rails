@@ -506,7 +506,7 @@ module ActiveRecord
         rename_column_indexes(table_name, column.name, new_column_name)
       end
 
-      protected
+      private
 
         def initialize_type_map(m)
           super

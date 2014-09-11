@@ -97,7 +97,7 @@ module Rails
       end
     end
 
-    protected
+    private
 
     def configurations
       require APP_PATH

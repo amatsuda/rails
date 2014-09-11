@@ -64,9 +64,8 @@ module ActiveRecord
       end
     end
 
-    protected
-
     attr_reader :attributes
+    private :attributes
 
     private
 

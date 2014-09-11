@@ -76,7 +76,7 @@ module ActionController
       self.class._view_cache_dependencies.map { |dep| instance_exec(&dep) }.compact
     end
 
-    protected
+    private
       # Convenience accessor.
       def cache(key, options = {}, &block)
         if cache_configured?

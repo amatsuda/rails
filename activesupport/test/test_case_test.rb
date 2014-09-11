@@ -125,7 +125,7 @@ class SetupAndTeardownTest < ActiveSupport::TestCase
   def teardown
   end
 
-  protected
+  private
 
     def reset_callback_record
       @called_back = []
@@ -150,7 +150,7 @@ class SubclassSetupAndTeardownTest < SetupAndTeardownTest
     assert_equal [:foo, :sentinel, :bar], self.class._teardown_callbacks.map(&:raw_filter)
   end
 
-  protected
+  private
     def bar
       @called_back << :bar
     end

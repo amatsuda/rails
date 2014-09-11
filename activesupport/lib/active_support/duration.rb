@@ -89,7 +89,7 @@ module ActiveSupport
       to_i
     end
 
-    protected
+    private
 
       def sum(sign, time = ::Time.current) #:nodoc:
         parts.inject(time) do |t,(type,number)|
@@ -104,8 +104,6 @@ module ActiveSupport
           end
         end
       end
-
-    private
 
       # We define it as a workaround to Ruby 2.0.0-p353 bug.
       # For more information, check rails/rails#13055.

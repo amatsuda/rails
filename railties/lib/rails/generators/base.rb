@@ -239,7 +239,7 @@ module Rails
         end
       end
 
-      protected
+      private
 
         # Check whether the given class names are already taken by user
         # application or Ruby on Rails.

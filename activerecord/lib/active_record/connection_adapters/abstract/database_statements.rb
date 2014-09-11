@@ -321,7 +321,7 @@ module ActiveRecord
         delete.where key.in(subselect)
       end
 
-      protected
+      private
 
         # Returns a subquery for the given key using the join information.
         def subquery_for(key, select)

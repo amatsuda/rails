@@ -29,7 +29,7 @@ module ActiveRecord
         end
       end
 
-    protected
+    private
       # The check for an existing value should be run from a class that
       # isn't abstract. This means working down from the current class
       # (self), to the first non-abstract class. Since classes don't know

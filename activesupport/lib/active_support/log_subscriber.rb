@@ -85,7 +85,7 @@ module ActiveSupport
       logger.error "Could not log #{name.inspect} event. #{e.class}: #{e.message} #{e.backtrace}"
     end
 
-  protected
+    private
 
     %w(info debug warn error fatal unknown).each do |level|
       class_eval <<-METHOD, __FILE__, __LINE__ + 1

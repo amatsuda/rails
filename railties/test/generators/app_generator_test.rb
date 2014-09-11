@@ -522,7 +522,7 @@ class AppGeneratorTest < Rails::Generators::TestCase
     quietly { generator.invoke_all }
   end
 
-  protected
+  private
 
   def action(*args, &block)
     capture(:stdout) { generator.send(*args, &block) }

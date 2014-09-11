@@ -58,7 +58,7 @@ module ActionDispatch
             uri.gsub(ESCAPED) { [$&[1, 2].hex].pack('C') }.force_encoding(encoding)
           end
 
-          protected
+          private
             def escape(component, pattern)
               component.gsub(pattern){ |unsafe| percent_encode(unsafe) }.force_encoding(US_ASCII)
             end

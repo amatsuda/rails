@@ -6,7 +6,7 @@ require 'abstract_unit'
 module RenderContext
   class BasicController < ActionController::Base
     self.view_paths = [ActionView::FixtureResolver.new(
-      "render_context/basic/hello_world.html.erb" => "<%= @value %> from <%= self.__controller_method__ %>",
+      "render_context/basic/hello_world.html.erb" => "<%= @value %> from <%= __controller_method__ %>",
       "layouts/basic.html.erb" => "?<%= yield %>?"
     )]
 
@@ -26,7 +26,7 @@ module RenderContext
       render :action => "hello_world", :layout => "basic"
     end
 
-    protected
+    private
 
     # 3) Set view_context to self
     def view_context

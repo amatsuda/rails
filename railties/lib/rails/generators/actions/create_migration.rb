@@ -37,7 +37,7 @@ module Rails
         end
         alias :exists? :existing_migration
 
-        protected
+        private
 
         def on_conflict_behavior(&block)
           options = base.options.merge(config)

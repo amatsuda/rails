@@ -406,7 +406,7 @@ class PluginGeneratorTest < Rails::Generators::TestCase
     end
   end
 
-protected
+private
   def action(*args, &block)
     silence(:stdout){ generator.send(*args, &block) }
   end

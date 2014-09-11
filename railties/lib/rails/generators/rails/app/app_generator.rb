@@ -265,7 +265,7 @@ module Rails
         end
       end
 
-    protected
+    private
 
       def self.banner
         "rails new #{self.arguments.map(&:usage).join(' ')} [options]"

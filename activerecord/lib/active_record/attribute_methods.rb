@@ -370,7 +370,7 @@ module ActiveRecord
       write_attribute(attr_name, value)
     end
 
-    protected
+    private
 
     def clone_attribute_value(reader_method, attribute_name) # :nodoc:
       value = send(reader_method, attribute_name)
@@ -391,8 +391,6 @@ module ActiveRecord
       # We check defined? because Syck calls respond_to? before actually calling initialize.
       defined?(@attributes) && @attributes.key?(attr_name)
     end
-
-    private
 
     # Returns a Hash of the Arel::Attributes and attribute values that have been
     # typecasted for use in an Arel insert/update method.

@@ -182,7 +182,7 @@ module Rails
         instance.configure(&block)
       end
 
-      protected
+      private
         def generate_railtie_name(string)
           ActiveSupport::Inflector.underscore(string).tr("/", "_")
         end

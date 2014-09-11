@@ -726,7 +726,7 @@ module ActiveSupport #:nodoc:
       end
     end
 
-    protected
+    private
       def log_call(*args)
         if log_activity?
           arg_str = args.collect { |arg| arg.inspect } * ', '

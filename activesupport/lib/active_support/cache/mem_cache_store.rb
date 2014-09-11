@@ -118,7 +118,7 @@ module ActiveSupport
         @data.stats
       end
 
-      protected
+      private
         # Read an entry from the cache.
         def read_entry(key, options) # :nodoc:
           deserialize_entry(@data.get(escape_key(key), options))
@@ -174,7 +174,7 @@ module ActiveSupport
 
       # Provide support for raw values in the local cache strategy.
       module LocalCacheWithRaw # :nodoc:
-        protected
+        private
           def read_entry(key, options)
             entry = super
             if options[:raw] && local_cache && entry

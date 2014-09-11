@@ -31,7 +31,7 @@ module ActionController #:nodoc:
   #     protect_from_forgery
   #     skip_before_action :verify_authenticity_token, if: :json_request?
   #
-  #     protected
+  #     private
   #
   #     def json_request?
   #       request.format.json?
@@ -129,7 +129,7 @@ module ActionController #:nodoc:
           request.env['action_dispatch.cookies'] = NullCookieJar.build(request)
         end
 
-        protected
+        private
 
         class NullSessionHash < Rack::Session::Abstract::SessionHash #:nodoc:
           def initialize(env)
@@ -182,7 +182,7 @@ module ActionController #:nodoc:
       end
     end
 
-    protected
+    private
       # The actual before_action that is used to verify the CSRF token.
       # Don't override this directly. Provide your own forgery protection
       # strategy instead. If you override, you'll disable same-origin

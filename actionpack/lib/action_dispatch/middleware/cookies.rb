@@ -403,7 +403,7 @@ module ActionDispatch
     module SerializedCookieJars
       MARSHAL_SIGNATURE = "\x04\x08".freeze
 
-      protected
+      private
         def needs_migration?(value)
           @options[:serializer] == :hybrid && value.start_with?(MARSHAL_SIGNATURE)
         end

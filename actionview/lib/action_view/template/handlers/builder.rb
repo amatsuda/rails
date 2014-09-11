@@ -13,7 +13,7 @@ module ActionView
           ";xml.target!;"
       end
 
-      protected
+      private
 
       def require_engine
         @required ||= begin

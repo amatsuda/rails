@@ -66,7 +66,7 @@ module ActionView
       end
     end
 
-  protected
+  private
 
     # Returns a string representation of the key attribute(s) that is suitable for use in an HTML DOM id.
     # This can be overwritten to customize the default generated string representation if desired.

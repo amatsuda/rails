@@ -72,7 +72,7 @@ module ActiveRecord
       valid?(context) || raise_record_invalid
     end
 
-  protected
+  private
 
     def raise_record_invalid
       raise(RecordInvalid.new(self))

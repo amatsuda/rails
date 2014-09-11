@@ -636,7 +636,7 @@ module ActiveRecord
         !native_database_types[type].nil?
       end
 
-      protected
+      private
 
       def initialize_type_map(m) # :nodoc:
         super
@@ -775,8 +775,6 @@ module ActiveRecord
       def remove_timestamps_sql(table_name)
         [remove_column_sql(table_name, :updated_at), remove_column_sql(table_name, :created_at)]
       end
-
-      private
 
       def version
         @version ||= full_version.scan(/^(\d+)\.(\d+)\.(\d+)/).flatten.map { |v| v.to_i }

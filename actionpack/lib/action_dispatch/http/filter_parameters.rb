@@ -47,7 +47,7 @@ module ActionDispatch
         @filtered_path ||= query_string.empty? ? path : "#{path}?#{filtered_query_string}"
       end
 
-    protected
+    private
 
       def parameter_filter
         parameter_filter_for @env.fetch("action_dispatch.parameter_filter") {

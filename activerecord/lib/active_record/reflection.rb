@@ -459,13 +459,11 @@ module ActiveRecord
       VALID_AUTOMATIC_INVERSE_MACROS = [:has_many, :has_one, :belongs_to]
       INVALID_AUTOMATIC_INVERSE_OPTIONS = [:conditions, :through, :polymorphic, :foreign_key]
 
-      protected
+      private
 
         def actual_source_reflection # FIXME: this is a horrible name
           self
         end
-
-      private
 
         def calculate_constructable(macro, options)
           case macro
@@ -843,7 +841,7 @@ module ActiveRecord
         check_validity_of_inverse!
       end
 
-      protected
+      private
 
         def actual_source_reflection # FIXME: this is a horrible name
           source_reflection.send(:actual_source_reflection)
@@ -853,7 +851,6 @@ module ActiveRecord
           klass.primary_key || raise(UnknownPrimaryKey.new(klass))
         end
 
-      private
         def derive_class_name
           # get the class_name of the belongs_to association of the through reflection
           options[:source_type] || source_reflection.class_name

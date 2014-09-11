@@ -424,7 +424,7 @@ module Rails
       ordered_railties.flatten - [self]
     end
 
-  protected
+  private
 
     alias :build_middleware_stack :app
 

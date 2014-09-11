@@ -200,7 +200,7 @@ module ActiveSupport #:nodoc:
         end
       end
 
-      protected
+      private
 
         def translate_offset(byte_offset) #:nodoc:
           return nil if byte_offset.nil?

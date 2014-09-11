@@ -31,13 +31,14 @@ module ActiveRecord
         end
 
         protected
+          def parts
+            @parts ||= [@schema, @identifier].compact
+          end
+
+        private
           def unquote(part)
             return unless part
             part.gsub(/(^"|"$)/,'')
-          end
-
-          def parts
-            @parts ||= [@schema, @identifier].compact
           end
       end
 

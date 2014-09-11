@@ -524,7 +524,7 @@ EXPECTED
     assert_equal '"1999-12-31T19:00:00.000-05:00"', ActiveSupport::JSON.encode(time)
   end
 
-  protected
+  private
 
     def object_keys(json_object)
       json_object[1..-2].scan(/([^{}:,\s]+):/).flatten.sort

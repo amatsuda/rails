@@ -43,7 +43,7 @@ module ActiveRecord
           end
         end
 
-        protected
+        private
 
         def cached_attributes_deprecation_warning(method_name)
           ActiveSupport::Deprecation.warn "Calling `#{method_name}` is no longer necessary. All attributes are cached."

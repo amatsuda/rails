@@ -1097,7 +1097,7 @@ class FinderTest < ActiveRecord::TestCase
     end
   end
 
-  protected
+  private
     def bind(statement, *vars)
       if vars.first.is_a?(Hash)
         ActiveRecord::Base.send(:replace_named_bind_variables, statement, vars.first)

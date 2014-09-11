@@ -1571,7 +1571,7 @@ module ActionDispatch
           end
         end
 
-        protected
+        private
 
           def parent_resource #:nodoc:
             @scope[:scope_level_resource]

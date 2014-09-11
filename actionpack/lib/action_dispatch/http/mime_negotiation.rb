@@ -138,7 +138,7 @@ module ActionDispatch
         order.include?(Mime::ALL) ? format : nil
       end
 
-      protected
+      private
 
       BROWSER_LIKE_ACCEPTS = /,\s*\*\/\*|\*\/\*\s*,/
 

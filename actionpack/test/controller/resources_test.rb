@@ -1053,7 +1053,7 @@ class ResourcesTest < ActionController::TestCase
     end
   end
 
-  protected
+  private
     def with_restful_routing(*args)
       options = args.extract_options!
       collection_methods = options.delete(:collection)

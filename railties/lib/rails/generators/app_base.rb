@@ -88,7 +88,7 @@ module Rails
         convert_database_option_for_jruby
       end
 
-    protected
+    private
 
       def gemfile_entry(name, *args)
         options = args.extract_options!

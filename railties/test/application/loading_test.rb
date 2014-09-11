@@ -327,7 +327,7 @@ class LoadingTest < ActiveSupport::TestCase
     assert Rails.application.initialized?
   end
 
-  protected
+  private
 
   def setup_ar!
     ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")

@@ -54,7 +54,7 @@ module ActionMailer
         end
       end
 
-      protected
+      private
 
         def initialize_test_deliveries
           set_delivery_method :test

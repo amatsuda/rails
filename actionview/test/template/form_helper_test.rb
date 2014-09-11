@@ -3298,7 +3298,7 @@ class FormHelperTest < ActionView::TestCase
     assert_equal 1, initialization_count, 'form builder instantiated more than once'
   end
 
-  protected
+  private
 
   def hidden_fields(method = nil)
     txt = %{<input name="utf8" type="hidden" value="&#x2713;" />}

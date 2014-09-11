@@ -16,7 +16,7 @@ module ActiveJob
         job_or_instantiate(*args).enqueue
       end
 
-      protected
+      private
         def job_or_instantiate(*args)
           args.first.is_a?(self) ? args.first : new(*args)
         end

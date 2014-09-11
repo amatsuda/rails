@@ -387,7 +387,7 @@ module ActiveRecord
         super(oid)
       end
 
-      protected
+      private
 
         # Returns the version of the connected PostgreSQL server.
         def postgresql_version
@@ -410,8 +410,6 @@ module ActiveRecord
             super
           end
         end
-
-      private
 
         def get_oid_type(oid, fmod, column_name, sql_type = '') # :nodoc:
           if !type_map.key?(oid)

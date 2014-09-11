@@ -243,7 +243,7 @@ module Rails
         @after_bundle_callbacks << block
       end
 
-      protected
+      private
 
         # Define log for backwards compatibility. If just one argument is sent,
         # invoke say, otherwise invoke say_status. Differently from say and

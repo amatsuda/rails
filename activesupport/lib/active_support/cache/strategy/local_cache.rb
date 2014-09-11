@@ -96,7 +96,7 @@ module ActiveSupport
           value
         end
 
-        protected
+        private
           def read_entry(key, options) # :nodoc:
             if local_cache
               entry = local_cache.read_entry(key, options)

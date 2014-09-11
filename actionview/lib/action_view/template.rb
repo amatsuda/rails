@@ -219,7 +219,7 @@ module ActionView
       end
     end
 
-    protected
+    private
 
       # Compile a template. This method ensures a template is compiled
       # just once and removes the source after it is compiled.
@@ -266,7 +266,6 @@ module ActionView
       # regardless of the original source encoding.
       def compile(mod) #:nodoc:
         encode!
-        method_name = self.method_name
         code = @handler.call(self)
 
         # Make sure that the resulting String to be eval'd is in the

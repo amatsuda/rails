@@ -93,7 +93,7 @@ module ActionMailer
         name.sub(/Preview$/, '').underscore
       end
 
-      protected
+      private
         def load_previews #:nodoc:
           if preview_path
             Dir["#{preview_path}/**/*_preview.rb"].each{ |file| require_dependency file }

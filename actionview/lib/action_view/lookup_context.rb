@@ -98,7 +98,7 @@ module ActionView
         @cache = old_value
       end
 
-    protected
+    private
 
       def _set_detail(key, value)
         @details = @details.dup if @details_key
@@ -145,7 +145,7 @@ module ActionView
         added_resolvers.times { view_paths.pop }
       end
 
-    protected
+    private
 
       def args_for_lookup(name, prefixes, partial, keys, details_options) #:nodoc:
         name, prefixes = normalize_name(name, prefixes)

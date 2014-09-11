@@ -255,7 +255,7 @@ task default: :test
         end
       end
 
-    protected
+    private
 
       def app_templates_dir
         "../../app/templates"

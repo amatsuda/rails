@@ -23,7 +23,7 @@ module ActiveRecord
       end
 
       module ClassMethods
-        protected
+        private
 
         if Module.methods_transplantable?
           def define_method_attribute=(name)

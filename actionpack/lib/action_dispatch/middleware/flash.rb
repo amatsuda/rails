@@ -242,6 +242,7 @@ module ActionDispatch
         @now
       end
 
+      private
       def stringify_array(array)
         array.map do |item|
           item.kind_of?(Symbol) ? item.to_s : item

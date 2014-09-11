@@ -251,7 +251,7 @@ module Rails
       [["rails", rails]] + groups.sort.to_a
     end
 
-    protected
+    private
 
       # This code is based directly on the Text gem implementation
       # Returns a value representing the "cost" of transforming str1 into str2

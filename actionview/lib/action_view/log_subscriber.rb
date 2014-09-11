@@ -26,7 +26,7 @@ module ActionView
       ActionView::Base.logger
     end
 
-  protected
+  private
 
     EMPTY = ''
     def from_rails_root(string)

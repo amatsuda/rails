@@ -6,7 +6,7 @@ module ActiveRecord
     module ControllerRuntime #:nodoc:
       extend ActiveSupport::Concern
 
-    protected
+      private
 
       attr_internal :db_runtime
 
@@ -17,6 +17,8 @@ module ActiveRecord
         ActiveRecord::LogSubscriber.reset_runtime
         super
       end
+
+      private
 
       def cleanup_view_runtime
         if ActiveRecord::Base.connected?

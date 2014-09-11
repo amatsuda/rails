@@ -11,7 +11,7 @@ module ActiveRecord
         migration_template @migration_template, "db/migrate/#{file_name}.rb"
       end
 
-      protected
+      private
       attr_reader :migration_action, :join_tables
 
       # sets the default migration template that is being used for the generation of the migration

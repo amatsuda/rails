@@ -25,7 +25,7 @@ module ActionView
       raise NotImplementedError
     end
 
-    protected
+    private
 
     def extract_details(options)
       @lookup_context.registered_details.each_with_object({}) do |key, details|

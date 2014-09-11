@@ -86,7 +86,7 @@ module ActiveRecord
         end
       end
 
-      protected
+      private
 
       def method_missing(method, *args, &block)
         if @klass.respond_to?(method)
@@ -119,7 +119,7 @@ module ActiveRecord
         arel.respond_to?(method, include_private)
     end
 
-    protected
+    private
 
     def array_delegable?(method)
       Array.method_defined?(method) && BLACKLISTED_ARRAY_METHODS.exclude?(method)

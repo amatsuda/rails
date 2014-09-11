@@ -21,7 +21,7 @@ module I18n
       I18n::Railtie.initialize_i18n(app)
     end
 
-  protected
+    private
 
     @i18n_inited = false
 

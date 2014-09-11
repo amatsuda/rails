@@ -73,7 +73,7 @@ module ActiveRecord
         type == other.type
     end
 
-    protected
+    private
 
     def initialize_dup(other)
       if defined?(@value) && @value.duplicable?

@@ -122,7 +122,7 @@ module ActiveSupport
         @monitor.synchronize(&block)
       end
 
-      protected
+      private
 
         PER_ENTRY_OVERHEAD = 240
 

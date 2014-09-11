@@ -40,7 +40,7 @@ class Rails::MailersController < Rails::ApplicationController # :nodoc:
     end
   end
 
-  protected
+  private
     def find_preview
       candidates = []
       params[:path].to_s.scan(%r{/|$}){ candidates << $` }

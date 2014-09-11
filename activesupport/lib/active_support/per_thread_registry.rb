@@ -40,7 +40,7 @@ module ActiveSupport
       Thread.current[@per_thread_registry_key] ||= new
     end
 
-    protected
+    private
       def method_missing(name, *args, &block) # :nodoc:
         # Caches the method definition as a singleton method of the receiver.
         define_singleton_method(name) do |*a, &b|

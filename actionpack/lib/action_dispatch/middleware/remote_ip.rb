@@ -144,7 +144,7 @@ module ActionDispatch
         @ip ||= calculate_ip
       end
 
-    protected
+    private
 
       def ips_from(header)
         # Split the comma-separated list into an array of strings

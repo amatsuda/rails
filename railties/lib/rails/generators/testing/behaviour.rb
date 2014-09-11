@@ -80,7 +80,7 @@ module Rails
           Rails::Generators::GeneratedAttribute.parse([name, attribute_type, index].compact.join(':'))
         end
 
-        protected
+        private
 
           def destination_root_is_set? # :nodoc:
             raise "You need to configure your Rails::Generators::TestCase destination root." unless destination_root

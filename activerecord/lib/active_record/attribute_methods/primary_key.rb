@@ -45,7 +45,7 @@ module ActiveRecord
         attribute_was(self.class.primary_key)
       end
 
-      protected
+      private
 
       def attribute_method?(attr_name)
         attr_name == 'id' || super

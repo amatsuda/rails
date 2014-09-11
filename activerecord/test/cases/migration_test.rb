@@ -516,7 +516,7 @@ class MigrationTest < ActiveRecord::TestCase
     end
   end
 
-  protected
+  private
     # This is needed to isolate class_attribute assignments like `table_name_prefix`
     # for each test case.
     def new_isolated_reminder_class
@@ -674,7 +674,7 @@ if ActiveRecord::Base.connection.supports_bulk_alter?
       assert_equal :datetime, column(:birthdate).type
     end
 
-    protected
+    private
 
     def with_bulk_change_table
       # Reset columns/indexes cache as we're changing the table

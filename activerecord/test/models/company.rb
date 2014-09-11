@@ -210,13 +210,11 @@ class Account < ActiveRecord::Base
 
   validate :check_empty_credit_limit
 
-  protected
+  private
 
   def check_empty_credit_limit
     errors.add_on_empty "credit_limit"
   end
-
-  private
 
   def private_method
     "Sir, yes sir!"

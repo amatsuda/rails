@@ -891,7 +891,7 @@ module ActiveRecord
         [index_name, index_type, index_columns, index_options, algorithm, using]
       end
 
-      protected
+      private
         def add_index_sort_order(option_strings, column_names, options = {})
           if options.is_a?(Hash) && order = options[:order]
             case order
@@ -961,20 +961,19 @@ module ActiveRecord
           end
         end
 
-      private
-      def create_table_definition(name, temporary, options, as = nil)
-        TableDefinition.new native_database_types, name, temporary, options, as
-      end
-
-      def create_alter_table(name)
-        AlterTable.new create_table_definition(name, false, {})
-      end
-
-      def foreign_key_name(table_name, options) # :nodoc:
-        options.fetch(:name) do
-          "fk_rails_#{SecureRandom.hex(5)}"
+        def create_table_definition(name, temporary, options, as = nil)
+          TableDefinition.new native_database_types, name, temporary, options, as
         end
-      end
+
+        def create_alter_table(name)
+          AlterTable.new create_table_definition(name, false, {})
+        end
+
+        def foreign_key_name(table_name, options) # :nodoc:
+          options.fetch(:name) do
+            "fk_rails_#{SecureRandom.hex(5)}"
+          end
+        end
     end
   end
 end

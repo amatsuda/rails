@@ -30,7 +30,7 @@ module ActionDispatch
         sid
       end
 
-    protected
+    private
 
       def initialize_sid
         @default_options.delete(:sidbits)

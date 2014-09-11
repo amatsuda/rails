@@ -250,7 +250,7 @@ class ActionsTest < Rails::Generators::TestCase
     assert_equal("", action(:log, :yes, "YES"))
   end
 
-  protected
+  private
 
     def action(*args, &block)
       capture(:stdout){ generator.send(*args, &block) }

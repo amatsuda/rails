@@ -64,7 +64,7 @@ module ActiveSupport
         end
       end
 
-      protected
+      private
 
         def read_entry(key, options)
           file_name = key_file_path(key)

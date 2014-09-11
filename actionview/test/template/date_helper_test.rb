@@ -3218,7 +3218,7 @@ class DateHelperTest < ActionView::TestCase
     assert_equal expected, time_tag(time, :format => :short)
   end
 
-  protected
+  private
     def with_env_tz(new_tz = 'US/Eastern')
       old_tz, ENV['TZ'] = ENV['TZ'], new_tz
       yield

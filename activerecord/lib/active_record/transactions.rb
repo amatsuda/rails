@@ -353,7 +353,7 @@ module ActiveRecord
       status
     end
 
-    protected
+    private
 
     # Save the new record state and id of a record so it can be restored later if a transaction fails.
     def remember_transaction_record_state #:nodoc:

@@ -139,7 +139,7 @@ class RescueController < ActionController::Base
     raise ActionView::TemplateError.new(nil, ZeroDivisionError.new('this is zero division error'))
   end
 
-  protected
+  private
     def deny_access
       head :forbidden
     end
@@ -313,7 +313,7 @@ class RescueTest < ActionDispatch::IntegrationTest
       raise 'b00m'
     end
 
-    protected
+    private
       def show_errors(exception)
         render :text => exception.message
       end

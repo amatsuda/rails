@@ -116,7 +116,7 @@ module ActiveRecord
       end
     end
 
-    protected
+    private
       def read_store_attribute(store_attribute, key)
         accessor = store_accessor_for(store_attribute)
         accessor.read(self, store_attribute, key)
@@ -127,7 +127,6 @@ module ActiveRecord
         accessor.write(self, store_attribute, key, value)
       end
 
-    private
       def store_accessor_for(store_attribute)
         type_for_attribute(store_attribute.to_s).accessor
       end
