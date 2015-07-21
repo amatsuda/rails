@@ -30,6 +30,7 @@ class Module
   def parent
     parent_name ? ActiveSupport::Inflector.constantize(parent_name) : Object
   end
+  alias parent_module parent
 
   # Returns all the parents of this module according to its name, ordered from
   # nested outwards. The receiver is not contained within the result.
@@ -55,6 +56,7 @@ class Module
     parents << Object unless parents.include? Object
     parents
   end
+  alias parent_modules parents
 
   def local_constants #:nodoc:
     constants(false)
