@@ -314,6 +314,7 @@ class NamedScopingTest < ActiveRecord::TestCase
       :pri,           # existing private class method
       :pro,           # existing protected class method
       :open,          # a ::Kernel method
+      :parents        # used to be prohibited
     ]
 
     conflicts.each do |name|
