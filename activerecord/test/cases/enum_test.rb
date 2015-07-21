@@ -285,7 +285,7 @@ class EnumTest < ActiveRecord::TestCase
       :save,     # generates #save!, which conflicts with an AR method
       :proposed, # same value as an existing enum
       :public, :private, :protected, # some important methods on Module and Class
-      :name, :parent, :superclass
+      :name, :superclass
     ]
 
     conflicts.each_with_index do |value, i|
