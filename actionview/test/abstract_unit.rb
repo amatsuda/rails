@@ -8,13 +8,6 @@ ENV["TMPDIR"] = File.expand_path("tmp", __dir__)
 
 require "active_support/core_ext/kernel/reporting"
 
-# These are the normal settings that will be set up by Railties
-# TODO: Have these tests support other combinations of these values
-silence_warnings do
-  Encoding.default_internal = Encoding::UTF_8
-  Encoding.default_external = Encoding::UTF_8
-end
-
 require "active_support/testing/autorun"
 require "active_support/testing/method_call_assertions"
 require "action_controller"

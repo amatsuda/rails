@@ -1,4 +1,3 @@
-# encoding: US-ASCII
 # frozen_string_literal: true
 
 require "abstract_unit"
@@ -149,59 +148,5 @@ class TestERBTemplate < ActiveSupport::TestCase
     @template = new_template("hello \u{fc}mlat")
     assert_equal Encoding::UTF_8, render.encoding
     assert_equal "hello \u{fc}mlat", render
-  end
-
-  # This test ensures that if the default_external
-  # is set to something other than UTF-8, we don't
-  # get any errors and get back a UTF-8 String.
-  def test_default_external_works
-    with_external_encoding "ISO-8859-1" do
-      @template = new_template("hello \xFCmlat")
-      assert_equal Encoding::UTF_8, render.encoding
-      assert_equal "hello \u{fc}mlat", render
-    end
-  end
-
-  def test_encoding_can_be_specified_with_magic_comment
-    @template = new_template("# encoding: ISO-8859-1\nhello \xFCmlat")
-    assert_equal Encoding::UTF_8, render.encoding
-    assert_equal "\nhello \u{fc}mlat", render
-  end
-
-  # TODO: This is currently handled inside ERB. The case of explicitly
-  # lying about encodings via the normal Rails API should be handled
-  # inside Rails.
-  def test_lying_with_magic_comment
-    assert_raises(ActionView::Template::Error) do
-      @template = new_template("# encoding: UTF-8\nhello \xFCmlat", virtual_path: nil)
-      render
-    end
-  end
-
-  def test_encoding_can_be_specified_with_magic_comment_in_erb
-    with_external_encoding Encoding::UTF_8 do
-      @template = new_template("<%# encoding: ISO-8859-1 %>hello \xFCmlat", virtual_path: nil)
-      assert_equal Encoding::UTF_8, render.encoding
-      assert_equal "hello \u{fc}mlat", render
-    end
-  end
-
-  def test_error_when_template_isnt_valid_utf8
-    e = assert_raises ActionView::Template::Error do
-      @template = new_template("hello \xFCmlat", virtual_path: nil)
-      render
-    end
-    # Hack: We write the regexp this way because the parser of RuboCop
-    # errs with /\xFC/.
-    assert_match(Regexp.new("\xFC"), e.message)
-  end
-
-  def with_external_encoding(encoding)
-    old = Encoding.default_external
-    Encoding::Converter.new old, encoding if old != encoding
-    silence_warnings { Encoding.default_external = encoding }
-    yield
-  ensure
-    silence_warnings { Encoding.default_external = old }
   end
 end

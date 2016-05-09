@@ -205,24 +205,8 @@ class CaptureHelperTest < ActionView::TestCase
     assert buffer.equal?(@av.output_buffer)
   end
 
-  def test_with_output_buffer_sets_proper_encoding
-    @av.output_buffer = ActionView::OutputBuffer.new
-
-    # Ensure we set the output buffer to an encoding different than the default one.
-    alt_encoding = alt_encoding(@av.output_buffer)
-    @av.output_buffer.force_encoding(alt_encoding)
-
-    @av.with_output_buffer do
-      assert_equal alt_encoding, @av.output_buffer.encoding
-    end
-  end
-
   def test_with_output_buffer_does_not_assume_there_is_an_output_buffer
     assert_nil @av.output_buffer
     assert_equal "", @av.with_output_buffer {}
-  end
-
-  def alt_encoding(output_buffer)
-    output_buffer.encoding == Encoding::US_ASCII ? Encoding::UTF_8 : Encoding::US_ASCII
   end
 end

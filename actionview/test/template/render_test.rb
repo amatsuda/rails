@@ -627,44 +627,6 @@ class LazyViewRenderTest < ActiveSupport::TestCase
     GC.start
     I18n.reload!
   end
-
-  def test_render_utf8_template_with_magic_comment
-    with_external_encoding Encoding::ASCII_8BIT do
-      result = @view.render(file: "test/utf8_magic", formats: [:html], layouts: "layouts/yield")
-      assert_equal Encoding::UTF_8, result.encoding
-      assert_equal "\nРусский \nтекст\n\nUTF-8\nUTF-8\nUTF-8\n", result
-    end
-  end
-
-  def test_render_utf8_template_with_default_external_encoding
-    with_external_encoding Encoding::UTF_8 do
-      result = @view.render(file: "test/utf8", formats: [:html], layouts: "layouts/yield")
-      assert_equal Encoding::UTF_8, result.encoding
-      assert_equal "Русский текст\n\nUTF-8\nUTF-8\nUTF-8\n", result
-    end
-  end
-
-  def test_render_utf8_template_with_incompatible_external_encoding
-    with_external_encoding Encoding::SHIFT_JIS do
-      e = assert_raises(ActionView::Template::Error) { @view.render(file: "test/utf8", formats: [:html], layouts: "layouts/yield") }
-      assert_match "Your template was not saved as valid Shift_JIS", e.cause.message
-    end
-  end
-
-  def test_render_utf8_template_with_partial_with_incompatible_encoding
-    with_external_encoding Encoding::SHIFT_JIS do
-      e = assert_raises(ActionView::Template::Error) { @view.render(file: "test/utf8_magic_with_bare_partial", formats: [:html], layouts: "layouts/yield") }
-      assert_match "Your template was not saved as valid Shift_JIS", e.cause.message
-    end
-  end
-
-  def with_external_encoding(encoding)
-    old = Encoding.default_external
-    silence_warnings { Encoding.default_external = encoding }
-    yield
-  ensure
-    silence_warnings { Encoding.default_external = old }
-  end
 end
 
 class CachedCollectionViewRenderTest < ActiveSupport::TestCase

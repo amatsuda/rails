@@ -4,11 +4,6 @@ require "active_support/core_ext/string/output_safety"
 
 module ActionView
   class OutputBuffer < ActiveSupport::SafeBuffer #:nodoc:
-    def initialize(*)
-      super
-      encode!
-    end
-
     def <<(value)
       return self if value.nil?
       super(value.to_s)
