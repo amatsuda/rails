@@ -1,5 +1,7 @@
-gem "minitest" # make sure we get the gem, not stdlib
-require "minitest"
+unless defined?(::Minitest::Test) || defined?(::Test::Unit::TestCase)
+  gem "minitest" # make sure we get the gem, not stdlib
+  require "minitest"
+end
 require "active_support/testing/tagged_logging"
 require "active_support/testing/setup_and_teardown"
 require "active_support/testing/assertions"
@@ -12,8 +14,8 @@ require "active_support/testing/file_fixtures"
 require "active_support/core_ext/kernel/reporting"
 
 module ActiveSupport
-  class TestCase < ::Minitest::Test
-    Assertion = Minitest::Assertion
+  class TestCase < defined?(::Minitest::Test) ? ::Minitest::Test : ::Test::Unit::TestCase
+    Assertion = Minitest::Assertion if defined?(Minitest::Assertion)
 
     class << self
       # Sets the order in which test cases are run.
