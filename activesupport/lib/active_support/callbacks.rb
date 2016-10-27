@@ -610,7 +610,7 @@ module ActiveSupport
       module ClassMethods
         def normalize_callback_params(filters, block) # :nodoc:
           type = CALLBACK_FILTER_TYPES.include?(filters.first) ? filters.shift : :before
-          options = filters.extract_options!
+          options = filters.extract_options2!
           filters.unshift(block) if block
           [type, filters, options.dup]
         end
@@ -798,9 +798,7 @@ module ActiveSupport
         #
         # Calling +define_callbacks+ multiple times with the same +names+ will
         # overwrite previous callbacks registered with +set_callback+.
-        def define_callbacks(*names)
-          options = names.extract_options!
-
+        def define_callbacks(*names, **options)
           names.each do |name|
             name = name.to_sym
 

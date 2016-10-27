@@ -287,7 +287,7 @@ module ActiveRecord
       private
 
         def set_options_for_callbacks!(args, enforced_options = {})
-          options = args.extract_options!.merge!(enforced_options)
+          options = args.extract_options2!.merge!(enforced_options)
           args << options
 
           if options[:on]

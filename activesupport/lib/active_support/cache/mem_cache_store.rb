@@ -7,7 +7,6 @@ end
 
 require "digest/md5"
 require "active_support/core_ext/marshal"
-require "active_support/core_ext/array/extract_options"
 
 module ActiveSupport
   module Cache
@@ -58,9 +57,8 @@ module ActiveSupport
       #     # => #<Dalli::Client:0x007f98a47d2028 @servers=["localhost:11211"], @options={}, @ring=nil>
       #   ActiveSupport::Cache::MemCacheStore.build_mem_cache('localhost:10290')
       #     # => #<Dalli::Client:0x007f98a47b3a60 @servers=["localhost:10290"], @options={}, @ring=nil>
-      def self.build_mem_cache(*addresses) # :nodoc:
+      def self.build_mem_cache(*addresses, **options) # :nodoc:
         addresses = addresses.flatten
-        options = addresses.extract_options!
         addresses = ["localhost:11211"] if addresses.empty?
         Dalli::Client.new(addresses, options)
       end
@@ -73,9 +71,8 @@ module ActiveSupport
       #
       # If no addresses are specified, then MemCacheStore will connect to
       # localhost port 11211 (the default memcached port).
-      def initialize(*addresses)
+      def initialize(*addresses, **options)
         addresses = addresses.flatten
-        options = addresses.extract_options!
         super(options)
 
         unless [String, Dalli::Client, NilClass].include?(addresses.first.class)
@@ -92,8 +89,7 @@ module ActiveSupport
 
       # Reads multiple values from the cache using a single call to the
       # servers for all keys. Options can be passed in the last argument.
-      def read_multi(*names)
-        options = names.extract_options!
+      def read_multi(*names, **options)
         options = merged_options(options)
 
         keys_to_names = Hash[names.map { |name| [normalize_key(name, options), name] }]

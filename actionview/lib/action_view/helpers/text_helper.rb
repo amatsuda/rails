@@ -1,5 +1,4 @@
 require "active_support/core_ext/string/filters"
-require "active_support/core_ext/array/extract_options"
 
 module ActionView
   # = Action View Text Helpers
@@ -349,10 +348,7 @@ module ActionView
       #       </td>
       #    </tr>
       #  <% end %>
-      def cycle(first_value, *values)
-        options = values.extract_options!
-        name = options.fetch(:name, "default")
-
+      def cycle(first_value, *values, name: "default")
         values.unshift(*first_value)
 
         cycle = get_cycle(name)

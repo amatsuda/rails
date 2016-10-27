@@ -713,7 +713,7 @@ module ActionDispatch
 
         private
           def map_method(method, args, &block)
-            options = args.extract_options!
+            options = args.extract_options2!
             options[:via] = method
             match(*args, options, &block)
             self
@@ -805,8 +805,8 @@ module ActionDispatch
         #   scope as: "sekret" do
         #     resources :posts
         #   end
-        def scope(*args)
-          options = args.extract_options!.dup
+        def scope(*args, **options)
+          options = options.dup
           scope = {}
 
           options[:path] = args.flatten.join("/") if args.any?
@@ -1252,8 +1252,8 @@ module ActionDispatch
         #
         # === Options
         # Takes same options as +resources+.
-        def resource(*resources, &block)
-          options = resources.extract_options!.dup
+        def resource(*resources, **options, &block)
+          options = options.dup
 
           if apply_common_behavior_for(:resource, resources, options, &block)
             return self
@@ -1413,8 +1413,8 @@ module ActionDispatch
         #
         #   # resource actions are at /admin/posts.
         #   resources :posts, path: "admin/posts"
-        def resources(*resources, &block)
-          options = resources.extract_options!.dup
+        def resources(*resources, **options, &block)
+          options = options.dup
 
           if apply_common_behavior_for(:resources, resources, options, &block)
             return self
@@ -2011,8 +2011,7 @@ module ActionDispatch
         #   namespace :posts do
         #     concerns :commentable
         #   end
-        def concerns(*args)
-          options = args.extract_options!
+        def concerns(*args, **options)
           args.flatten.each do |name|
             if concern = @concerns[name]
               concern.call(self, options)

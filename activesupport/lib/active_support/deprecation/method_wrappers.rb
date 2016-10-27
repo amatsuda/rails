@@ -50,7 +50,7 @@ module ActiveSupport
       #   DEPRECATION WARNING: eee is deprecated and will be removed from MyGem next-release (use zzz instead). (called from irb_binding at (irb):18)
       #   # => nil
       def deprecate_methods(target_module, *method_names)
-        options = method_names.extract_options!
+        options = method_names.extract_options2!
         deprecator = options.delete(:deprecator) || self
         method_names += options.keys
 

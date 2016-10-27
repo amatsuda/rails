@@ -1,4 +1,3 @@
-require "active_support/core_ext/array/extract_options"
 require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/hash/except"
 
@@ -147,9 +146,7 @@ module ActiveModel
       #   or <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>). The
       #   method, proc or string should return or evaluate to a +true+ or +false+
       #   value.
-      def validate(*args, &block)
-        options = args.extract_options!
-
+      def validate(*args, **options, &block)
         if args.all? { |arg| arg.is_a?(Symbol) }
           options.each_key do |k|
             unless VALID_OPTIONS_FOR_VALIDATE.include?(k)

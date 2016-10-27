@@ -98,9 +98,9 @@ module ActionView
       when Array
         components = options.dup
         if _generate_paths_by_default
-          polymorphic_path(components, components.extract_options!)
+          polymorphic_path(components, components.extract_options2!)
         else
-          polymorphic_url(components, components.extract_options!)
+          polymorphic_url(components, components.extract_options2!)
         end
       else
         method = _generate_paths_by_default ? :path : :url

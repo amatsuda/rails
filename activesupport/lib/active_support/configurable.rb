@@ -1,6 +1,5 @@
 require "active_support/concern"
 require "active_support/ordered_options"
-require "active_support/core_ext/array/extract_options"
 require "active_support/core_ext/regexp"
 
 module ActiveSupport
@@ -104,9 +103,7 @@ module ActiveSupport
       #   end
       #
       #   User.hair_colors # => [:brown, :black, :blonde, :red]
-      def config_accessor(*names)
-        options = names.extract_options!
-
+      def config_accessor(*names, instance_accessor: true, instance_reader: true, instance_writer: true)
         names.each do |name|
           raise NameError.new("invalid config attribute name") unless /\A[_A-Za-z]\w*\z/.match?(name)
 
@@ -116,9 +113,9 @@ module ActiveSupport
           singleton_class.class_eval reader, __FILE__, reader_line
           singleton_class.class_eval writer, __FILE__, writer_line
 
-          unless options[:instance_accessor] == false
-            class_eval reader, __FILE__, reader_line unless options[:instance_reader] == false
-            class_eval writer, __FILE__, writer_line unless options[:instance_writer] == false
+          unless instance_accessor == false
+            class_eval reader, __FILE__, reader_line unless instance_reader == false
+            class_eval writer, __FILE__, writer_line unless instance_writer == false
           end
           send("#{name}=", yield) if block_given?
         end

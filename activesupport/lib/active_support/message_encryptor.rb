@@ -1,6 +1,5 @@
 require "openssl"
 require "base64"
-require "active_support/core_ext/array/extract_options"
 require "active_support/message_verifier"
 
 module ActiveSupport
@@ -56,15 +55,14 @@ module ActiveSupport
     # * <tt>:digest</tt> - String of digest to use for signing. Default is
     #   +SHA1+. Ignored when using an AEAD cipher like 'aes-256-gcm'.
     # * <tt>:serializer</tt> - Object serializer to use. Default is +Marshal+.
-    def initialize(secret, *signature_key_or_options)
-      options = signature_key_or_options.extract_options!
+    def initialize(secret, *signature_key_or_options, cipher: "aes-256-cbc", digest: nil, serializer: Marshal)
       sign_secret = signature_key_or_options.first
       @secret = secret
       @sign_secret = sign_secret
-      @cipher = options[:cipher] || "aes-256-cbc"
-      @digest = options[:digest] || "SHA1" unless aead_mode?
+      @cipher = cipher
+      @digest = digest || "SHA1" unless aead_mode?
       @verifier = resolve_verifier
-      @serializer = options[:serializer] || Marshal
+      @serializer = serializer
     end
 
     # Encrypt and sign a message. We need to sign the message in order to avoid

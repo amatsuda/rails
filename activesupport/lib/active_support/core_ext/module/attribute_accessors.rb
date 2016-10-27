@@ -1,4 +1,3 @@
-require "active_support/core_ext/array/extract_options"
 require "active_support/core_ext/regexp"
 
 # Extends the module object with class/module and instance accessors for
@@ -51,8 +50,7 @@ class Module
   #   end
   #
   #   Person.new.hair_colors # => [:brown, :black, :blonde, :red]
-  def mattr_reader(*syms)
-    options = syms.extract_options!
+  def mattr_reader(*syms, instance_accessor: true, instance_reader: true)
     syms.each do |sym|
       raise NameError.new("invalid attribute name: #{sym}") unless /\A[_A-Za-z]\w*\z/.match?(sym)
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -63,7 +61,7 @@ class Module
         end
       EOS
 
-      unless options[:instance_reader] == false || options[:instance_accessor] == false
+      unless (instance_reader == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}
             @@#{sym}
@@ -117,8 +115,7 @@ class Module
   #   end
   #
   #   Person.class_variable_get("@@hair_colors") # => [:brown, :black, :blonde, :red]
-  def mattr_writer(*syms)
-    options = syms.extract_options!
+  def mattr_writer(*syms, instance_accessor: true, instance_writer: true)
     syms.each do |sym|
       raise NameError.new("invalid attribute name: #{sym}") unless /\A[_A-Za-z]\w*\z/.match?(sym)
       class_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -129,7 +126,7 @@ class Module
         end
       EOS
 
-      unless options[:instance_writer] == false || options[:instance_accessor] == false
+      unless (instance_writer == false) || (instance_accessor == false)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{sym}=(obj)
             @@#{sym} = obj
@@ -205,9 +202,9 @@ class Module
   #   end
   #
   #   Person.class_variable_get("@@hair_colors") # => [:brown, :black, :blonde, :red]
-  def mattr_accessor(*syms, &blk)
-    mattr_reader(*syms, &blk)
-    mattr_writer(*syms)
+  def mattr_accessor(*syms, instance_accessor: true, instance_reader: true, instance_writer: true, &blk)
+    mattr_reader(*syms, instance_accessor: instance_accessor, instance_reader: instance_reader, &blk)
+    mattr_writer(*syms, instance_accessor: instance_accessor, instance_writer: instance_writer)
   end
   alias :cattr_accessor :mattr_accessor
 end

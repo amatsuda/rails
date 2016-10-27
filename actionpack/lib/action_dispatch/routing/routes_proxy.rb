@@ -1,5 +1,3 @@
-require "active_support/core_ext/array/extract_options"
-
 module ActionDispatch
   module Routing
     class RoutesProxy #:nodoc:
@@ -26,9 +24,8 @@ module ActionDispatch
       def method_missing(method, *args)
         if @helpers.respond_to?(method)
           self.class.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-            def #{method}(*args)
-              options = args.extract_options!
-              args << url_options.merge((options || {}).symbolize_keys)
+            def #{method}(*args, **options)
+              args << url_options.merge(options.symbolize_keys)
               @helpers.#{method}(*args)
             end
           RUBY

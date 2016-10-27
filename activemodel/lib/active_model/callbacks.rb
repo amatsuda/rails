@@ -1,5 +1,3 @@
-require "active_support/core_ext/array/extract_options"
-
 module ActiveModel
   # == Active \Model \Callbacks
   #
@@ -100,8 +98,7 @@ module ActiveModel
     #
     # NOTE: +method_name+ passed to `define_model_callbacks` must not end with
     # `!`, `?` or `=`.
-    def define_model_callbacks(*callbacks)
-      options = callbacks.extract_options!
+    def define_model_callbacks(*callbacks, **options)
       options = {
         terminator: deprecated_false_terminator,
         skip_after_callbacks_if_terminated: true,
@@ -135,8 +132,7 @@ module ActiveModel
       end
 
       def _define_after_model_callback(klass, callback) #:nodoc:
-        klass.define_singleton_method("after_#{callback}") do |*args, &block|
-          options = args.extract_options!
+        klass.define_singleton_method("after_#{callback}") do |*args, **options, &block|
           options[:prepend] = true
           conditional = ActiveSupport::Callbacks::Conditionals::Value.new { |v|
             v != false

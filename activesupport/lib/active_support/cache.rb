@@ -1,5 +1,4 @@
 require "zlib"
-require "active_support/core_ext/array/extract_options"
 require "active_support/core_ext/array/wrap"
 require "active_support/core_ext/module/attribute_accessors"
 require "active_support/core_ext/numeric/bytes"
@@ -336,8 +335,7 @@ module ActiveSupport
       # Some cache implementation may optimize this method.
       #
       # Returns a hash mapping the names provided to the values found.
-      def read_multi(*names)
-        options = names.extract_options!
+      def read_multi(*names, **options)
         options = merged_options(options)
 
         results = {}
@@ -374,10 +372,9 @@ module ActiveSupport
       #   # => { "bim" => "bam",
       #   #      "unknown_key" => "Fallback value for key: unknown_key" }
       #
-      def fetch_multi(*names)
+      def fetch_multi(*names, **options)
         raise ArgumentError, "Missing block: `Cache#fetch_multi` requires a block." unless block_given?
 
-        options = names.extract_options!
         options = merged_options(options)
         results = read_multi(*names, options)
 

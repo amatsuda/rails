@@ -1,7 +1,6 @@
 require "abstract_unit"
 require "active_support/core_ext/object/try"
 require "active_support/core_ext/object/with_options"
-require "active_support/core_ext/array/extract_options"
 
 class AdminController < ResourcesController; end
 class MessagesController < ResourcesController; end
@@ -1090,11 +1089,9 @@ class ResourcesTest < ActionController::TestCase
   end
 
   protected
-    def with_restful_routing(*args)
-      options = args.extract_options!
-      collection_methods = options.delete(:collection)
-      member_methods = options.delete(:member)
-      path_prefix = options.delete(:path_prefix)
+    def with_restful_routing(*args, collection: nil, member: nil, path_prefix: nil, **options)
+      collection_methods = collection
+      member_methods = member
       args.push(options)
 
       with_routing do |set|

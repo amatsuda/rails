@@ -779,7 +779,7 @@ module ActionView
             [selected, nil]
           else
             selected = Array.wrap(selected)
-            options = selected.extract_options!.symbolize_keys
+            options = selected.extract_options2!.symbolize_keys
             selected_items = options.fetch(:selected, selected)
             [selected_items, options[:disabled]]
           end

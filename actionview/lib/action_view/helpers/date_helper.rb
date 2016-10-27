@@ -1,6 +1,5 @@
 require "date"
 require "action_view/helpers/tag_helper"
-require "active_support/core_ext/array/extract_options"
 require "active_support/core_ext/date/conversions"
 require "active_support/core_ext/hash/slice"
 require "active_support/core_ext/object/acts_like"
@@ -679,9 +678,7 @@ module ActionView
       #     <span>Right now</span>
       #   <% end %>
       #   # => <time datetime="2010-11-04T17:55:45+01:00"><span>Right now</span></time>
-      def time_tag(date_or_time, *args, &block)
-        options  = args.extract_options!
-        format   = options.delete(:format) || :long
+      def time_tag(date_or_time, *args, format: :long, **options, &block)
         content  = args.first || I18n.l(date_or_time, format: format)
         datetime = date_or_time.acts_like?(:time) ? date_or_time.xmlschema : date_or_time.iso8601
 

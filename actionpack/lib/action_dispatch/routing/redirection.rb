@@ -1,6 +1,5 @@
 require "action_dispatch/http/request"
 require "active_support/core_ext/uri"
-require "active_support/core_ext/array/extract_options"
 require "rack/utils"
 require "action_controller/metal/exceptions"
 require "action_dispatch/routing/endpoint"
@@ -172,9 +171,7 @@ module ActionDispatch
       #
       #   get 'accounts/:name' => redirect(SubdomainRedirector.new('api'))
       #
-      def redirect(*args, &block)
-        options = args.extract_options!
-        status  = options.delete(:status) || 301
+      def redirect(*args, status: 301, **options, &block)
         path    = args.shift
 
         return OptionRedirect.new(status, options) if options.any?

@@ -184,7 +184,7 @@ module ActionDispatch
           HelperMethodBuilder.url.handle_string_call self, options
         when Array
           components = options.dup
-          polymorphic_url(components, components.extract_options!)
+          polymorphic_url(components, components.extract_options2!)
         when Class
           HelperMethodBuilder.url.handle_class_call self, options
         else

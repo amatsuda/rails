@@ -39,7 +39,7 @@ module ActionController
       NULL    = ->(list, action) { true }
 
       def build_middleware(klass, args, block)
-        options = args.extract_options!
+        options = args.extract_options2!
         only   = Array(options.delete(:only)).map(&:to_s)
         except = Array(options.delete(:except)).map(&:to_s)
         args << options unless options.empty?

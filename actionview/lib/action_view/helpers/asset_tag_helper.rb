@@ -53,8 +53,8 @@ module ActionView
       #
       #   javascript_include_tag "http://www.example.com/xmlhr.js"
       #   # => <script src="http://www.example.com/xmlhr.js"></script>
-      def javascript_include_tag(*sources)
-        options = sources.extract_options!.stringify_keys
+      def javascript_include_tag(*sources, **options)
+        options = options.stringify_keys
         path_options = options.extract!("protocol", "extname", "host", "skip_pipeline").symbolize_keys
         sources.uniq.map { |source|
           tag_options = {
@@ -89,8 +89,8 @@ module ActionView
       #   stylesheet_link_tag "random.styles", "/css/stylish"
       #   # => <link href="/assets/random.styles" media="screen" rel="stylesheet" />
       #   #    <link href="/css/stylish.css" media="screen" rel="stylesheet" />
-      def stylesheet_link_tag(*sources)
-        options = sources.extract_options!.stringify_keys
+      def stylesheet_link_tag(*sources, **options)
+        options = options.stringify_keys
         path_options = options.extract!("protocol", "host", "skip_pipeline").symbolize_keys
         sources.uniq.map { |source|
           tag_options = {
@@ -284,7 +284,7 @@ module ActionView
       #   video_tag(["trailer.ogg", "trailer.flv"], size: "160x120")
       #   # => <video height="120" width="160"><source src="/videos/trailer.ogg" /><source src="/videos/trailer.flv" /></video>
       def video_tag(*sources)
-        options = sources.extract_options!.symbolize_keys
+        options = sources.extract_options2!.symbolize_keys
         public_poster_folder = options.delete(:poster_skip_pipeline)
         sources << options
         multiple_sources_tag_builder("video", sources) do |tag_options|
@@ -311,7 +311,7 @@ module ActionView
 
       private
         def multiple_sources_tag_builder(type, sources)
-          options       = sources.extract_options!.symbolize_keys
+          options       = sources.extract_options2!.symbolize_keys
           skip_pipeline = options.delete(:skip_pipeline)
           sources.flatten!
 

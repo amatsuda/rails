@@ -1,5 +1,3 @@
-require "active_support/core_ext/array/extract_options"
-
 module ActiveModel
   module Validations
     class WithValidator < EachValidator # :nodoc:
@@ -76,8 +74,7 @@ module ActiveModel
       #       options[:my_custom_key] # => "my custom value"
       #     end
       #   end
-      def validates_with(*args, &block)
-        options = args.extract_options!
+      def validates_with(*args, **options, &block)
         options[:class] = self
 
         args.each do |klass|
@@ -132,8 +129,7 @@ module ActiveModel
     # If you pass any additional configuration options, they will be passed
     # to the class and available as +options+, please refer to the
     # class version of this method for more information.
-    def validates_with(*args, &block)
-      options = args.extract_options!
+    def validates_with(*args, **options, &block)
       options[:class] = self.class
 
       args.each do |klass|
