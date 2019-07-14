@@ -35,10 +35,10 @@ module ActiveModel
       test "values are duped coming out" do
         type = Type::String.new
 
-        s = "foo"
+        s = "foo".dup
         assert_not_same s, type.cast(s)
         assert_equal s, type.cast(s)
-        assert_not_same s, type.deserialize(s)
+        assert_same s, type.deserialize(s)
         assert_equal s, type.deserialize(s)
       end
     end

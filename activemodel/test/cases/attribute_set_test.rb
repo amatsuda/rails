@@ -34,7 +34,7 @@ module ActiveModel
 
     test "duping creates a new hash, but does not dup the attributes" do
       builder = AttributeSet::Builder.new(foo: Type::Integer.new, bar: Type::String.new)
-      attributes = builder.build_from_database(foo: 1, bar: "foo")
+      attributes = builder.build_from_database(foo: 1, bar: "foo".dup)
 
       # Ensure the type cast value is cached
       attributes[:foo].value

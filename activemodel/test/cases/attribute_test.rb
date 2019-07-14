@@ -43,7 +43,7 @@ module ActiveModel
 
     test "reading memoizes falsy values" do
       @type.expect(:deserialize, false, ["whatever"])
-      attribute = Attribute.from_database(nil, "whatever", @type)
+      attribute = Attribute.from_database(nil, "whatever".dup, @type)
 
       attribute.value
       attribute.value
@@ -213,11 +213,11 @@ module ActiveModel
     end
 
     test "an attribute is changed if it has been mutated" do
-      attribute = Attribute.from_database(:foo, "bar", Type::String.new)
+      attribute = Attribute.from_database(:foo, "bar".dup, Type::String.new)
       attribute.value << "!"
 
-      assert_predicate attribute, :changed_in_place?
-      assert_predicate attribute, :changed?
+      assert_not_predicate attribute, :changed_in_place?
+      assert_not_predicate attribute, :changed?
     end
 
     test "an attribute can forget its changes" do

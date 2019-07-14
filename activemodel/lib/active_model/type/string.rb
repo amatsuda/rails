@@ -11,6 +11,10 @@ module ActiveModel
         end
       end
 
+      def deserialize(value)
+        ::String === value ? value : super
+      end
+
       private
         def cast_value(value)
           case value

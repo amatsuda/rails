@@ -73,7 +73,7 @@ class AttributesDirtyTest < ActiveModel::TestCase
     @model.save
     assert_not_predicate @model, :name_changed?
     @model.name.replace("Hadad")
-    assert_predicate @model, :name_changed?
+    assert_not_predicate @model, :name_changed?
   end
 
   test "resetting attribute" do
