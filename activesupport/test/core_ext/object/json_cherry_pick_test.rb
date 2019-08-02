@@ -7,7 +7,7 @@ require "abstract_unit"
 # need to be executed in isolation to reproduce the scenario correctly, because
 # other test cases might have already loaded additional dependencies.
 
-class JsonCherryPickTest < ActiveSupport::TestCase
+class JsonCherryPickTest < ActiveSupport::PlainTestCase
   include ActiveSupport::Testing::Isolation
 
   def test_time_as_json

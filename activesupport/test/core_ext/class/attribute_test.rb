@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/class/attribute"
 
-class ClassAttributeTest < ActiveSupport::TestCase
+class ClassAttributeTest < ActiveSupport::PlainTestCase
   def setup
     @klass = Class.new do
       class_attribute :setting

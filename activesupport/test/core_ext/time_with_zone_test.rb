@@ -5,7 +5,7 @@ require "active_support/time"
 require "time_zone_test_helpers"
 require "yaml"
 
-class TimeWithZoneTest < ActiveSupport::TestCase
+class TimeWithZoneTest < ActiveSupport::PlainTestCase
   include TimeZoneTestHelpers
 
   def setup
@@ -1020,7 +1020,7 @@ class TimeWithZoneTest < ActiveSupport::TestCase
   end
 end
 
-class TimeWithZoneMethodsForTimeAndDateTimeTest < ActiveSupport::TestCase
+class TimeWithZoneMethodsForTimeAndDateTimeTest < ActiveSupport::PlainTestCase
   include TimeZoneTestHelpers
 
   def setup
@@ -1216,7 +1216,7 @@ class TimeWithZoneMethodsForTimeAndDateTimeTest < ActiveSupport::TestCase
   end
 end
 
-class TimeWithZoneMethodsForDate < ActiveSupport::TestCase
+class TimeWithZoneMethodsForDate < ActiveSupport::PlainTestCase
   include TimeZoneTestHelpers
 
   def setup
@@ -1257,7 +1257,7 @@ class TimeWithZoneMethodsForDate < ActiveSupport::TestCase
   end
 end
 
-class TimeWithZoneMethodsForString < ActiveSupport::TestCase
+class TimeWithZoneMethodsForString < ActiveSupport::PlainTestCase
   include TimeZoneTestHelpers
 
   def setup

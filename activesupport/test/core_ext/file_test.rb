@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/file"
 
-class AtomicWriteTest < ActiveSupport::TestCase
+class AtomicWriteTest < ActiveSupport::PlainTestCase
   def test_atomic_write_without_errors
     contents = "Atomic Text"
     File.atomic_write(file_name, Dir.pwd) do |file|

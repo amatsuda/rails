@@ -5,7 +5,7 @@ require "active_support/time"
 require "core_ext/date_and_time_behavior"
 require "time_zone_test_helpers"
 
-class DateTimeExtCalculationsTest < ActiveSupport::TestCase
+class DateTimeExtCalculationsTest < ActiveSupport::PlainTestCase
   def date_time_init(year, month, day, hour, minute, second, usec = 0)
     DateTime.civil(year, month, day, hour, minute, second + (usec / 1000000))
   end

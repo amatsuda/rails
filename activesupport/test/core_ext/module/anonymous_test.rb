@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/module/anonymous"
 
-class AnonymousTest < ActiveSupport::TestCase
+class AnonymousTest < ActiveSupport::PlainTestCase
   test "an anonymous class or module are anonymous" do
     assert_predicate Module.new, :anonymous?
     assert_predicate Class.new, :anonymous?

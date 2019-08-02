@@ -3,14 +3,14 @@
 require "abstract_unit"
 require "active_support/core_ext/module/concerning"
 
-class ModuleConcerningTest < ActiveSupport::TestCase
+class ModuleConcerningTest < ActiveSupport::PlainTestCase
   def test_concerning_declares_a_concern_and_includes_it_immediately
     klass = Class.new { concerning(:Foo) { } }
     assert_includes klass.ancestors, klass::Foo, klass.ancestors.inspect
   end
 end
 
-class ModuleConcernTest < ActiveSupport::TestCase
+class ModuleConcernTest < ActiveSupport::PlainTestCase
   def test_concern_creates_a_module_extended_with_active_support_concern
     klass = Class.new do
       concern :Baz do

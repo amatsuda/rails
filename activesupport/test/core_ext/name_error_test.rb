@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/name_error"
 
-class NameErrorTest < ActiveSupport::TestCase
+class NameErrorTest < ActiveSupport::PlainTestCase
   def test_name_error_should_set_missing_name
     exc = assert_raise NameError do
       SomeNameThatNobodyWillUse____Really ? 1 : 0

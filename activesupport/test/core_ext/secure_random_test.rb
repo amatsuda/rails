@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/securerandom"
 
-class SecureRandomTest < ActiveSupport::TestCase
+class SecureRandomTest < ActiveSupport::PlainTestCase
   def test_base58
     s1 = SecureRandom.base58
     s2 = SecureRandom.base58

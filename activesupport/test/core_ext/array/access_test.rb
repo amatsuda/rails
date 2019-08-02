@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/array"
 
-class AccessTest < ActiveSupport::TestCase
+class AccessTest < ActiveSupport::PlainTestCase
   def test_from
     assert_equal %w( a b c d ), %w( a b c d ).from(0)
     assert_equal %w( c d ), %w( a b c d ).from(2)

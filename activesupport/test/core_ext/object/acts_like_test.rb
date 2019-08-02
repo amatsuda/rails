@@ -6,7 +6,7 @@ require "active_support/core_ext/time/acts_like"
 require "active_support/core_ext/date_time/acts_like"
 require "active_support/core_ext/object/acts_like"
 
-class ObjectTests < ActiveSupport::TestCase
+class ObjectTests < ActiveSupport::PlainTestCase
   class DuckTime
     def acts_like_time?
       true

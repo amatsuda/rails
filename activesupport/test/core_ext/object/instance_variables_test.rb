@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/object/instance_variables"
 
-class ObjectInstanceVariableTest < ActiveSupport::TestCase
+class ObjectInstanceVariableTest < ActiveSupport::PlainTestCase
   def setup
     @source, @dest = Object.new, Object.new
     @source.instance_variable_set(:@bar, "bar")

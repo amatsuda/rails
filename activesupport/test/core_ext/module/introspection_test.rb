@@ -14,7 +14,7 @@ module ParentA
   FrozenB.freeze
 end
 
-class IntrospectionTest < ActiveSupport::TestCase
+class IntrospectionTest < ActiveSupport::PlainTestCase
   def test_module_parent_name
     assert_equal "ParentA", ParentA::B.module_parent_name
     assert_equal "ParentA::B", ParentA::B::C.module_parent_name

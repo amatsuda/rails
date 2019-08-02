@@ -10,6 +10,7 @@ silence_warnings do
 end
 
 require "active_support/testing/autorun"
+require_relative 'plain_test_case'
 
 ENV["NO_RELOAD"] = "1"
 require "active_support"

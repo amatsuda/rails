@@ -170,7 +170,7 @@ class SideEffect
   end
 end
 
-class ModuleTest < ActiveSupport::TestCase
+class ModuleTest < ActiveSupport::PlainTestCase
   def setup
     @david = Someone.new("David", Somewhere.new("Paulina", "Chicago"))
   end

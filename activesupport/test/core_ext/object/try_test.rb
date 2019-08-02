@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/object/try"
 
-class ObjectTryTest < ActiveSupport::TestCase
+class ObjectTryTest < ActiveSupport::PlainTestCase
   def setup
     @string = "Hello"
   end

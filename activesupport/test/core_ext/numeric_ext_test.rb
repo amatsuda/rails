@@ -5,7 +5,7 @@ require "active_support/time"
 require "active_support/core_ext/numeric"
 require "active_support/core_ext/integer"
 
-class NumericExtTimeAndDateTimeTest < ActiveSupport::TestCase
+class NumericExtTimeAndDateTimeTest < ActiveSupport::PlainTestCase
   def setup
     @now = Time.local(2005, 2, 10, 15, 30, 45)
     @dtnow = DateTime.civil(2005, 2, 10, 15, 30, 45)
@@ -75,7 +75,7 @@ class NumericExtTimeAndDateTimeTest < ActiveSupport::TestCase
   end
 end
 
-class NumericExtDateTest < ActiveSupport::TestCase
+class NumericExtDateTest < ActiveSupport::PlainTestCase
   def setup
     @today = Date.today
   end
@@ -98,7 +98,7 @@ class NumericExtDateTest < ActiveSupport::TestCase
   end
 end
 
-class NumericExtSizeTest < ActiveSupport::TestCase
+class NumericExtSizeTest < ActiveSupport::PlainTestCase
   def test_unit_in_terms_of_another
     assert_equal 1024.bytes, 1.kilobyte
     assert_equal 1024.kilobytes, 1.megabyte
@@ -128,7 +128,7 @@ class NumericExtSizeTest < ActiveSupport::TestCase
   end
 end
 
-class NumericExtFormattingTest < ActiveSupport::TestCase
+class NumericExtFormattingTest < ActiveSupport::PlainTestCase
   def kilobytes(number)
     number * 1024
   end

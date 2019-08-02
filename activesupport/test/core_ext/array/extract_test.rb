@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/array"
 
-class ExtractTest < ActiveSupport::TestCase
+class ExtractTest < ActiveSupport::PlainTestCase
   def test_extract
     numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     array_id = numbers.object_id

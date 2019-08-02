@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/load_error"
 
-class TestLoadError < ActiveSupport::TestCase
+class TestLoadError < ActiveSupport::PlainTestCase
   def test_with_require
     assert_raise(LoadError) { require "no_this_file_don't_exist" }
   end

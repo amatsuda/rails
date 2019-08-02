@@ -15,7 +15,7 @@ require "active_support/core_ext/string/strip"
 require "time_zone_test_helpers"
 require "yaml"
 
-class StringInflectionsTest < ActiveSupport::TestCase
+class StringInflectionsTest < ActiveSupport::PlainTestCase
   include InflectorTestCases
   include ConstantizeTestCases
   include TimeZoneTestHelpers
@@ -427,7 +427,7 @@ class StringInflectionsTest < ActiveSupport::TestCase
   end
 end
 
-class StringAccessTest < ActiveSupport::TestCase
+class StringAccessTest < ActiveSupport::PlainTestCase
   test "#at with Integer, returns a substring of one character at that position" do
     assert_equal "h", "hello".at(0)
   end
@@ -554,7 +554,7 @@ class StringAccessTest < ActiveSupport::TestCase
   end
 end
 
-class StringConversionsTest < ActiveSupport::TestCase
+class StringConversionsTest < ActiveSupport::PlainTestCase
   include TimeZoneTestHelpers
 
   def test_string_to_time
@@ -742,13 +742,13 @@ class StringConversionsTest < ActiveSupport::TestCase
   end
 end
 
-class StringBehaviourTest < ActiveSupport::TestCase
+class StringBehaviourTest < ActiveSupport::PlainTestCase
   def test_acts_like_string
     assert_predicate "Bambi", :acts_like_string?
   end
 end
 
-class CoreExtStringMultibyteTest < ActiveSupport::TestCase
+class CoreExtStringMultibyteTest < ActiveSupport::PlainTestCase
   UTF8_STRING = "こにちわ"
   ASCII_STRING = "ohayo".encode("US-ASCII")
   EUC_JP_STRING = "さよなら".encode("EUC-JP")
@@ -770,7 +770,7 @@ class CoreExtStringMultibyteTest < ActiveSupport::TestCase
   end
 end
 
-class OutputSafetyTest < ActiveSupport::TestCase
+class OutputSafetyTest < ActiveSupport::PlainTestCase
   def setup
     @string = +"hello"
     @object = Class.new(Object) do
@@ -1021,14 +1021,14 @@ class OutputSafetyTest < ActiveSupport::TestCase
   end
 end
 
-class StringExcludeTest < ActiveSupport::TestCase
+class StringExcludeTest < ActiveSupport::PlainTestCase
   test "inverse of #include" do
     assert_equal false, "foo".exclude?("o")
     assert_equal true, "foo".exclude?("p")
   end
 end
 
-class StringIndentTest < ActiveSupport::TestCase
+class StringIndentTest < ActiveSupport::PlainTestCase
   test "does not indent strings that only contain newlines (edge cases)" do
     ["", "\n", "\n" * 7].each do |string|
       str = string.dup

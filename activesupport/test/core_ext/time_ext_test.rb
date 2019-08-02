@@ -5,7 +5,7 @@ require "active_support/time"
 require "core_ext/date_and_time_behavior"
 require "time_zone_test_helpers"
 
-class TimeExtCalculationsTest < ActiveSupport::TestCase
+class TimeExtCalculationsTest < ActiveSupport::PlainTestCase
   def date_time_init(year, month, day, hour, minute, second, usec = 0)
     Time.local(year, month, day, hour, minute, second, usec)
   end
@@ -1011,7 +1011,7 @@ class TimeExtCalculationsTest < ActiveSupport::TestCase
   end
 end
 
-class TimeExtMarshalingTest < ActiveSupport::TestCase
+class TimeExtMarshalingTest < ActiveSupport::PlainTestCase
   def test_marshalling_with_utc_instance
     t = Time.utc(2000)
     unmarshalled = Marshal.load(Marshal.dump(t))

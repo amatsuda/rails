@@ -5,7 +5,7 @@ require "bigdecimal"
 require "active_support/core_ext/object/duplicable"
 require "active_support/core_ext/numeric/time"
 
-class DuplicableTest < ActiveSupport::TestCase
+class DuplicableTest < ActiveSupport::PlainTestCase
   RAISE_DUP = [method(:puts), method(:puts).unbind]
   ALLOW_DUP = ["1", "symbol_from_string".to_sym, Object.new, /foo/, [], {}, Time.now, Class.new, Module.new, BigDecimal("4.56"), nil, false, true, 1, 2.3, Complex(1), Rational(1)]
 

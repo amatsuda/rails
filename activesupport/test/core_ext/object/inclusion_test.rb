@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/object/inclusion"
 
-class InTest < ActiveSupport::TestCase
+class InTest < ActiveSupport::PlainTestCase
   def test_in_array
     assert 1.in?([1, 2])
     assert_not 3.in?([1, 2])

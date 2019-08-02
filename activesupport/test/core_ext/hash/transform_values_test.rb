@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/hash/indifferent_access"
 
-class IndifferentTransformValuesTest < ActiveSupport::TestCase
+class IndifferentTransformValuesTest < ActiveSupport::PlainTestCase
   test "indifferent access is still indifferent after mapping values" do
     original = { a: "a", b: "b" }.with_indifferent_access
     mapped = original.transform_values { |v| v + "!" }

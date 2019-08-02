@@ -5,7 +5,7 @@ require "active_support/ordered_hash"
 require "active_support/core_ext/object/to_query"
 require "active_support/core_ext/string/output_safety"
 
-class ToQueryTest < ActiveSupport::TestCase
+class ToQueryTest < ActiveSupport::PlainTestCase
   def test_simple_conversion
     assert_query_equal "a=10", a: 10
   end

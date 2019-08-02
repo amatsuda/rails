@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/regexp"
 
-class RegexpExtAccessTests < ActiveSupport::TestCase
+class RegexpExtAccessTests < ActiveSupport::PlainTestCase
   def test_multiline
     assert_equal true, //m.multiline?
     assert_equal false, //.multiline?

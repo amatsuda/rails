@@ -27,7 +27,7 @@ module RemoveMethodTests
   end
 end
 
-class RemoveMethodTest < ActiveSupport::TestCase
+class RemoveMethodTest < ActiveSupport::PlainTestCase
   def test_remove_method_from_an_object
     RemoveMethodTests::A.class_eval {
       remove_possible_method(:do_something)

@@ -4,10 +4,12 @@ require "abstract_unit"
 require "active_support/inflector"
 require "active_support/time"
 require "active_support/json"
+require "active_support/testing/time_helpers"
 require "time_zone_test_helpers"
 require "yaml"
 
-class DurationTest < ActiveSupport::TestCase
+class DurationTest < ActiveSupport::PlainTestCase
+  include ActiveSupport::Testing::TimeHelpers
   include TimeZoneTestHelpers
 
   def test_is_a

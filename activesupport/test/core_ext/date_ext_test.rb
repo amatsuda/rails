@@ -5,7 +5,7 @@ require "active_support/time"
 require "core_ext/date_and_time_behavior"
 require "time_zone_test_helpers"
 
-class DateExtCalculationsTest < ActiveSupport::TestCase
+class DateExtCalculationsTest < ActiveSupport::PlainTestCase
   def date_time_init(year, month, day, *args)
     Date.new(year, month, day)
   end
@@ -368,7 +368,7 @@ class DateExtCalculationsTest < ActiveSupport::TestCase
   end
 end
 
-class DateExtBehaviorTest < ActiveSupport::TestCase
+class DateExtBehaviorTest < ActiveSupport::PlainTestCase
   def test_date_acts_like_date
     assert_predicate Date.new, :acts_like_date?
   end

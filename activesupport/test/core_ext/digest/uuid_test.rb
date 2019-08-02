@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/digest/uuid"
 
-class DigestUUIDExt < ActiveSupport::TestCase
+class DigestUUIDExt < ActiveSupport::PlainTestCase
   def test_v3_uuids
     assert_equal "3d813cbb-47fb-32ba-91df-831e1593ac29", Digest::UUID.uuid_v3(Digest::UUID::DNS_NAMESPACE, "www.widgets.com")
     assert_equal "86df55fb-428e-3843-8583-ba3c05f290bc", Digest::UUID.uuid_v3(Digest::UUID::URL_NAMESPACE, "http://www.widgets.com")

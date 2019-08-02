@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/object/deep_dup"
 
-class DeepDupTest < ActiveSupport::TestCase
+class DeepDupTest < ActiveSupport::PlainTestCase
   def test_array_deep_dup
     array = [1, [2, 3]]
     dup = array.deep_dup

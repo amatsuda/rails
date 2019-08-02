@@ -17,7 +17,7 @@ require "json/encoding_test_cases"
 # arguments.
 require "active_support/core_ext/big_decimal"
 
-class JsonGemEncodingTest < ActiveSupport::TestCase
+class JsonGemEncodingTest < ActiveSupport::PlainTestCase
   include ActiveSupport::Testing::Isolation
 
   JSONTest::EncodingTestCases.constants.each_with_index do |name|

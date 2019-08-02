@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/array"
 
-class GroupingTest < ActiveSupport::TestCase
+class GroupingTest < ActiveSupport::PlainTestCase
   def test_in_groups_of_with_perfect_fit
     groups = []
     ("a".."i").to_a.in_groups_of(3) do |group|
@@ -92,7 +92,7 @@ class GroupingTest < ActiveSupport::TestCase
   end
 end
 
-class SplitTest < ActiveSupport::TestCase
+class SplitTest < ActiveSupport::PlainTestCase
   def test_split_with_empty_array
     assert_equal [[]], [].split(0)
   end

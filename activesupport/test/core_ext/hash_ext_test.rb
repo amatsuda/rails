@@ -9,8 +9,10 @@ require "active_support/core_ext/object/conversions"
 require "active_support/core_ext/date/conversions"
 require "active_support/core_ext/object/deep_dup"
 require "active_support/inflections"
+require "active_support/core_ext/date/zones"
+require "active_support/core_ext/time/zones"
 
-class HashExtTest < ActiveSupport::TestCase
+class HashExtTest < ActiveSupport::PlainTestCase
   def setup
     @strings = { "a" => 1, "b" => 2 }
     @nested_strings = { "a" => { "b" => { "c" => 3 } } }
@@ -445,7 +447,7 @@ class IWriteMyOwnXML
   end
 end
 
-class HashExtToParamTests < ActiveSupport::TestCase
+class HashExtToParamTests < ActiveSupport::PlainTestCase
   class ToParam < String
     def to_param
       "#{self}-1"
@@ -476,7 +478,7 @@ class HashExtToParamTests < ActiveSupport::TestCase
   end
 end
 
-class HashToXmlTest < ActiveSupport::TestCase
+class HashToXmlTest < ActiveSupport::PlainTestCase
   def setup
     @xml_options = { root: :person, skip_instruct: true, indent: 0 }
   end

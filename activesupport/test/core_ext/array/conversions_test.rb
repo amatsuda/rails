@@ -6,7 +6,7 @@ require "active_support/core_ext/big_decimal"
 require "active_support/core_ext/hash"
 require "active_support/core_ext/string"
 
-class ToSentenceTest < ActiveSupport::TestCase
+class ToSentenceTest < ActiveSupport::PlainTestCase
   def test_plain_array_to_sentence
     assert_equal "", [].to_sentence
     assert_equal "one", ["one"].to_sentence
@@ -70,7 +70,7 @@ class ToSentenceTest < ActiveSupport::TestCase
   end
 end
 
-class ToSTest < ActiveSupport::TestCase
+class ToSTest < ActiveSupport::PlainTestCase
   class TestDB
     @@counter = 0
     def id
@@ -86,7 +86,7 @@ class ToSTest < ActiveSupport::TestCase
   end
 end
 
-class ToXmlTest < ActiveSupport::TestCase
+class ToXmlTest < ActiveSupport::PlainTestCase
   def test_to_xml_with_hash_elements
     xml = [
       { name: "David", age: 26, age_in_millis: 820497600000 },

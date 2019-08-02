@@ -3,7 +3,7 @@
 require "abstract_unit"
 require "active_support/core_ext/module/attribute_accessors_per_thread"
 
-class ModuleAttributeAccessorPerThreadTest < ActiveSupport::TestCase
+class ModuleAttributeAccessorPerThreadTest < ActiveSupport::PlainTestCase
   def setup
     @class = Class.new do
       thread_mattr_accessor :foo

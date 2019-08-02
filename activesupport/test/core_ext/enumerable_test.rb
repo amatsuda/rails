@@ -11,7 +11,7 @@ class SummablePayment < Payment
   def +(p) self.class.new(price + p.price) end
 end
 
-class EnumerableTests < ActiveSupport::TestCase
+class EnumerableTests < ActiveSupport::PlainTestCase
   class GenericEnumerable
     include Enumerable
 
