@@ -6,12 +6,13 @@ require "active_support/dependencies"
 module ActionDispatch
   class MiddlewareStack
     class Middleware
-      attr_reader :args, :block, :klass
+      attr_reader :args, :options, :block, :klass
 
-      def initialize(klass, args, block)
-        @klass = klass
-        @args  = args
-        @block = block
+      def initialize(klass, args, options, block)
+        @klass    = klass
+        @args     = args
+        @options  = options
+        @block    = block
       end
 
       def name; klass.name; end
@@ -33,8 +34,18 @@ module ActionDispatch
         end
       end
 
-      def build(app)
-        klass.new(app, *args, &block)
+      if RUBY_VERSION < "2.7"
+        def build(app)
+          if options.empty?
+            klass.new(app, *args, &block)
+          else
+            klass.new(app, *args, **options, &block)
+          end
+        end
+      else
+        def build(app)
+          klass.new(app, *args, **options, &block)
+        end
       end
 
       def build_instrumented(app)
@@ -88,29 +99,29 @@ module ActionDispatch
       middlewares[i]
     end
 
-    def unshift(klass, *args, &block)
-      middlewares.unshift(build_middleware(klass, args, block))
+    def unshift(klass, *args, **options, &block)
+      middlewares.unshift(build_middleware(klass, args, options, block))
     end
 
     def initialize_copy(other)
       self.middlewares = other.middlewares.dup
     end
 
-    def insert(index, klass, *args, &block)
+    def insert(index, klass, *args, **options, &block)
       index = assert_index(index, :before)
-      middlewares.insert(index, build_middleware(klass, args, block))
+      middlewares.insert(index, build_middleware(klass, args, options, block))
     end
 
     alias_method :insert_before, :insert
 
-    def insert_after(index, *args, &block)
+    def insert_after(index, *args, **options, &block)
       index = assert_index(index, :after)
-      insert(index + 1, *args, &block)
+      insert(index + 1, *args, **options, &block)
     end
 
-    def swap(target, *args, &block)
+    def swap(target, *args, **options, &block)
       index = assert_index(target, :before)
-      insert(index, *args, &block)
+      insert(index, *args, **options, &block)
       middlewares.delete_at(index + 1)
     end
 
@@ -118,8 +129,8 @@ module ActionDispatch
       middlewares.delete_if { |m| m.klass == target }
     end
 
-    def use(klass, *args, &block)
-      middlewares.push(build_middleware(klass, args, block))
+    def use(klass, *args, **options, &block)
+      middlewares.push(build_middleware(klass, args, options, block))
     end
 
     def build(app = nil, &block)
@@ -140,8 +151,8 @@ module ActionDispatch
         i
       end
 
-      def build_middleware(klass, args, block)
-        Middleware.new(klass, args, block)
+      def build_middleware(klass, args, options, block)
+        Middleware.new(klass, args, options, block)
       end
   end
 end
