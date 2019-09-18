@@ -62,7 +62,7 @@ module Rails
             if config.force_ssl && config.ssl_options.fetch(:secure_cookies, true) && !config.session_options.key?(:secure)
               config.session_options[:secure] = true
             end
-            middleware.use config.session_store, config.session_options
+            middleware.use config.session_store, **config.session_options
             middleware.use ::ActionDispatch::Flash
           end
 
