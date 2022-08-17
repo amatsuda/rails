@@ -261,7 +261,7 @@ module ActiveRecord
               klass.scope value_method_name, -> { where(name => value) }
 
               klass.send(:detect_enum_conflict!, name, "not_#{value_method_name}", true)
-              klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+              klass.scope "not_#{value_method_name}", -> { where(name => @klass.defined_enums[name].values.reject {|v| v == value }) }
             end
           end
       end
