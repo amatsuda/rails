@@ -24,6 +24,7 @@ class Module
   # * <tt>:allow_nil</tt> - If set to true, prevents a +Module::DelegationError+
   #   from being raised
   # * <tt>:private</tt> - If set to true, changes method visibility to private
+  # * <tt>:without_args</tt> - If set to true, it doesn't handle method arguments
   #
   # The macro receives one or more method names (specified as symbols or
   # strings) and the name of the target object via the <tt>:to</tt> option
@@ -168,7 +169,7 @@ class Module
   #   Foo.new("Bar").name # raises NoMethodError: undefined method `name'
   #
   # The target method must be public, otherwise it will raise +NoMethodError+.
-  def delegate(*methods, to: nil, prefix: nil, allow_nil: nil, private: nil)
+  def delegate(*methods, to: nil, prefix: nil, allow_nil: nil, private: nil, without_args: false)
     unless to
       raise ArgumentError, "Delegation needs a target. Supply a keyword argument 'to' (e.g. delegate :hello, to: :greeter)."
     end
@@ -199,7 +200,14 @@ class Module
 
       # Attribute writer methods only accept one argument. Makes sure []=
       # methods still accept two arguments.
-      definition = /[^\]]=\z/.match?(method) ? "arg" : "..."
+      definition = \
+        if without_args
+          nil
+        elsif /[^\]]=\z/.match?(method)
+          "arg"
+        else
+          "..."
+        end
 
       # The following generated method calls the target exactly once, storing
       # the returned value in a dummy variable.
@@ -239,6 +247,11 @@ class Module
     private(*method_names) if private
     method_names
   end
+
+  def delegate_attribute(*methods, to: nil, prefix: nil, allow_nil: nil, private: nil)
+    delegate(*methods, to: to, prefix: prefix, allow_nil: allow_nil, private: private, without_args: true)
+  end
+
 
   # When building decorators, a common pattern may emerge:
   #
